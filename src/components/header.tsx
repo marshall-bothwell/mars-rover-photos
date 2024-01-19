@@ -13,7 +13,7 @@ export default function Header() {
         <header>
             <div className="flex flex-row items-center mx-4 my-4 sm:mx-8">
                 <Link href="/" className="flex flex-row">
-                    <Rocket className="mr-4" /> 
+                    <Rocket color="#86d0fe" className="mr-4" /> 
                     <div className="sm:text-lg font-bold">Mars Rover Photos</div>
                 </Link>
                 <div className="ml-auto">
