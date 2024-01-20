@@ -1,11 +1,19 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 
-export default function RoverSelector() {
+interface RoverSelectorProps {
+    currentRover?: string;
+}
+
+export default function RoverSelector({ currentRover }: RoverSelectorProps) {
+    let defaultValue = "perseverance";
+    if (currentRover) {
+        defaultValue = currentRover;
+    }
 
     return (
         <div>
-            <RadioGroup className="flex flex-row" defaultValue="perseverance" name="rover">
+            <RadioGroup className="flex flex-row" defaultValue={defaultValue} name="rover">
                 <div className="flex items-center space-x-2">
                     <RadioGroupItem value="perseverance" id="perseverance" />
                     <Label htmlFor="perseverance">Perseverance</Label>
