@@ -1,7 +1,6 @@
 import { createSupabaseServerClient } from "@/supabase/create-supabase-server-client";
 import FormButton from '@/components/common/form-button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Link from 'next/link';
 import * as actions from '@/actions';
 
 export default async function HeaderAuth() {
@@ -10,10 +9,10 @@ export default async function HeaderAuth() {
     const { data: { user } } = await supabase.auth.getUser();
     const metadata = user?.user_metadata;
 
-    let display: JSX.Element;
+    let authDisplay: JSX.Element;
 
     if (session && user) {
-        display = (
+        authDisplay = (
             <div className="flex flex-row space-x-4">
                 <Avatar>
                     <AvatarImage src={metadata?.avatar_url} />
@@ -29,7 +28,7 @@ export default async function HeaderAuth() {
             </div>
         )
     } else {
-        display = (
+        authDisplay = (
             <form action={actions.signInWithGithub}>
                 <FormButton variant="outline">Sign In With Github</FormButton>
             </form>
@@ -38,7 +37,7 @@ export default async function HeaderAuth() {
 
     return (
         <div>
-            {display}
+            {authDisplay}
         </div>
     )
 }

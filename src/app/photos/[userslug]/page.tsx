@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from "@/supabase/create-supabase-server-client"
 import RoverPhotoCard from '@/components/common/rover-photo-card';
+import InfiniteScrollPhotos from "@/components/common/infinite-scroll-photos";
 
 interface SavedPhotosPageProps {
     params: {
@@ -20,11 +21,11 @@ type SavedPhoto = {
 
 export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) {
     const { userslug } = params;
-    console.log(userslug)
     const supabase = createSupabaseServerClient();
     const { data: {session} } = await supabase.auth.getSession();
     const { data, error }  = await supabase.from("saved_photos").select().eq('user_id', userslug);
-    const test = JSON.stringify(data, null, 2);
+
+    const deletable = session?.user.id === userslug;
 
     const savedPhotos = data as SavedPhoto[];
 
@@ -37,13 +38,14 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
                 earthDate={photo.earth_date}
                 sol={parseInt(photo.sol)}
                 imageSource={photo.image_source}
+                deletable={deletable}
             />
         )
     })
 
     return (
         <div className="flex flex-wrap justify-center">
-            {renderedSavedPhotos}
+            <InfiniteScrollPhotos roverPhotos={renderedSavedPhotos} pageSize={9} />
         </div>
     )
 }

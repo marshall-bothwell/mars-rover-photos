@@ -5,6 +5,8 @@ import { Separator } from '@/components/ui/separator';
 import { Suspense } from 'react';
 import * as actions from '@/actions';
 
+import { RoverApiResponse, Manifest } from '@/lib/types';
+
 interface SearchPageProps {
     searchParams: {
         rover: string;
@@ -14,16 +16,24 @@ interface SearchPageProps {
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
     const { rover, date } = searchParams;
-    const roverPhotos = await actions.searchRoverPhotos(date, rover);
-    const { photo_manifest } = await actions.getManifest(rover);
+    let roverPhotos: RoverApiResponse | undefined;
+    let manifest: Manifest | undefined;
+    if (date && rover) {
+        roverPhotos = await actions.searchRoverPhotos(date, rover);
+        const { photo_manifest } = await actions.getManifest(rover);
+        manifest = photo_manifest;
+    }
 
     return (
         <div>
             <SearchForm rover={rover} />
             <Separator />
-            <Suspense fallback={<RoverPhotoListSkeleton />}>
-                <RoverPhotoList roverPhotos={roverPhotos} rover={rover} date={date} manifest={photo_manifest} />
-            </Suspense>
+            { roverPhotos && manifest ?
+                <Suspense fallback={<RoverPhotoListSkeleton />}>
+                    <RoverPhotoList roverPhotos={roverPhotos} rover={rover} date={date} manifest={manifest} />
+                </Suspense>
+                : null
+            }
         </div>
     )
 }

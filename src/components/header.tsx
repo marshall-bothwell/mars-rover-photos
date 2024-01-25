@@ -21,7 +21,7 @@ export default function Header() {
                     <DarkModeToggle />
                 </div>
             </div>
-            <Separator className="shadow"/>
+            <Separator className="shadow "/>
         </header>
     )
 }

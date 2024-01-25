@@ -1,15 +1,18 @@
+"use client";
+
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import { useQueryState } from 'nuqs';
 import { Manifest } from '@/lib/types';
 
 interface CameraSelectorProps {
     rover: string;
     date: string;
     manifest: Manifest;
-    handleCameraChange: (camera: string) => void;
 }
 
-export default async function CameraSelector({ rover, date, manifest, handleCameraChange }: CameraSelectorProps) {
+export default function CameraSelector({ rover, date, manifest }: CameraSelectorProps) {
+    const [camera, setCamera] = useQueryState('camera');
 
     const manifestOfSearchedDate = manifest.photos.find((manifest) => manifest.earth_date === date)
 
@@ -31,7 +34,7 @@ export default async function CameraSelector({ rover, date, manifest, handleCame
 
     return (
         <div>
-            <RadioGroup className="flex flex-row flex-wrap mx-8 mt-4" defaultValue="all" onValueChange={handleCameraChange}>
+            <RadioGroup className="flex flex-row flex-wrap mx-8 mt-4" value={camera || "all"} onValueChange={(selection) => {setCamera(selection)}}>
                 {cameras}
             </RadioGroup>
         </div>

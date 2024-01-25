@@ -17,7 +17,7 @@ interface RoverPhotoCardProps {
     deletable?: boolean;
 }
 
-export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, sol, imageSource, saveable}: RoverPhotoCardProps) {
+export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, sol, imageSource, saveable, deletable}: RoverPhotoCardProps) {
     const [formState, action] = useFormState(actions.saveRoverPhoto, { errors: {} });
     return (
         <Dialog>
@@ -36,8 +36,8 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
                             <Image src={imageSource}/>
                         </DialogTrigger>
                         <div className="flex flex-row">
-                            { formState.errors.message ? <div className="p-2 bg-red-200 border rounded border-red-400">{formState.errors.message}</div> : null }
-                            { formState.success ? <div className="p-2 bg-green-200 border rounded border-green-400">Photo Saved</div> : null }
+                            { formState.errors.message ? <div className="text-red-300">{formState.errors.message}</div> : null }
+                            { formState.success ? <div className="text-green-300">Photo Saved</div> : null }
                             { saveable ? <FormButton className="w-1/3 ml-auto" variant="ghost">Save Photo</FormButton> : null }
                         </div>
                     </CardContent>

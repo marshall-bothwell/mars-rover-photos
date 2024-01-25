@@ -2,9 +2,11 @@
 
 import CameraSelector from '@/components/search/camera-selector';
 import RoverPhotoCard from '@/components/common/rover-photo-card';
+import InfiniteScrollPhotos from '@/components/common/infinite-scroll-photos';
 import type { RoverApiResponse, Manifest } from '@/lib/types';
 import { createSupabaseBrowserClient } from '@/supabase/create-supabase-browser-client';
 import type { Session } from '@supabase/supabase-js';
+import { useQueryState } from 'nuqs';
 import { useState, useEffect } from 'react';
 
 interface RoverPhotoListProps {
@@ -15,14 +17,12 @@ interface RoverPhotoListProps {
 }
 
 export default function RoverPhotoList({ roverPhotos, rover, date, manifest }: RoverPhotoListProps) {
-    const [camera, setCamera] = useState("all");
     const [session, setSession] = useState<Session | null>(null);
     const supabase = createSupabaseBrowserClient();
+    const [camera] = useQueryState("camera");
+    //console.log(camera);
+    
     let saveable = false;
-
-    const handleCameraChange = (camera: string) => {
-        setCamera(camera);
-    }
 
     useEffect(() => {
         const getSession = async () => {
@@ -31,10 +31,6 @@ export default function RoverPhotoList({ roverPhotos, rover, date, manifest }: R
         }
         getSession();
     }, [])
-
-    useEffect(() => {
-        setCamera("all");
-    }, [rover, date])
 
     if (session?.user) {
         saveable = true;
@@ -45,7 +41,7 @@ export default function RoverPhotoList({ roverPhotos, rover, date, manifest }: R
             if (camera === "all") {
                 return true;
             } else {
-                return photo.camera.name.toUpperCase() === camera.toUpperCase()
+                return photo.camera.name.toUpperCase() === camera
             }
         }).
         map((photo) => {
@@ -64,10 +60,8 @@ export default function RoverPhotoList({ roverPhotos, rover, date, manifest }: R
 
     return (
         <div className="flex flex-col items-center">
-            <CameraSelector rover={rover} date={date} manifest={manifest} handleCameraChange={handleCameraChange}/>
-            <div className="flex flex-wrap justify-center">
-                {renderedRoverPhotos}
-            </div>
+            <CameraSelector rover={rover} date={date} manifest={manifest} />
+            <InfiniteScrollPhotos roverPhotos={renderedRoverPhotos} pageSize={9} />
         </div>
     )
 }
