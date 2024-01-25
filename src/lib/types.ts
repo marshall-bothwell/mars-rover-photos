@@ -26,3 +26,23 @@ export type RoverPhoto = {
   };
 
 export type RoverApiResponse = { photos: RoverPhoto[] };
+
+export type Manifest = {
+  name: string,
+  landing_date: string,
+  launch_date: string,
+  status: string,
+  max_sol: number,
+  max_date: string,
+  total_photos: number,
+  photos: {
+    sol: number,
+    earth_date: string,
+    total_photos: number,
+    cameras: string[]
+  }[]
+}
+
+export type ManifestApiResponse = {
+  photo_manifest: Manifest
+}

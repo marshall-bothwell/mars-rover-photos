@@ -2,10 +2,8 @@ import Link from 'next/link';
 import { Rocket } from 'lucide-react';
 import { DarkModeToggle } from '@/components/common/dark-mode-toggle';
 import { Separator } from '@/components/ui/separator';
-import { buttonVariants } from '@/components/ui/button';
+import HeaderAuth from '@/components/header-auth';
 
-// TODO: Replace the home logo with a more appropriate logo for mars rover photo
-//       Add OAuth Google sign-in with next-auth
 
 export default function Header() {
 
@@ -16,10 +14,8 @@ export default function Header() {
                     <Rocket color="#86d0fe" className="mr-4 hover:animate-pulse" /> 
                     <div className="sm:text-lg font-bold hover:animate-pulse">Mars Rover Photos</div>
                 </Link>
-                <div className="ml-auto">
-                    <Link href="/" className={buttonVariants({variant: "outline"})}>
-                        Sign In
-                    </Link>
+                <div className="ml-auto flex flex-row space-x-2">
+                    <HeaderAuth />
                 </div>
                 <div className="ml-4">
                     <DarkModeToggle />
