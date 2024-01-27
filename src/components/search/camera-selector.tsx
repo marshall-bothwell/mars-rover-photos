@@ -6,15 +6,14 @@ import { useQueryState } from 'nuqs';
 import { Manifest } from '@/lib/types';
 
 interface CameraSelectorProps {
-    rover: string;
-    date: string;
     manifest: Manifest;
 }
 
-export default function CameraSelector({ rover, date, manifest }: CameraSelectorProps) {
+export default function CameraSelector({ manifest }: CameraSelectorProps) {
     const [camera, setCamera] = useQueryState('camera');
+    const [date] = useQueryState('date');
 
-    const manifestOfSearchedDate = manifest.photos.find((manifest) => manifest.earth_date === date)
+    const manifestOfSearchedDate = manifest?.photos.find((manifest) => manifest.earth_date === date)
 
     const cameras = manifestOfSearchedDate?.cameras.map((camera) => {
         return (

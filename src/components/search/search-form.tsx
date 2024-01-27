@@ -2,9 +2,7 @@
 
 import RoverSelector from '@/components/search/rover-selector';
 import DateSelector from '@/components/search/date-selector';
-import FormButton from '@/components/common/form-button';
 import { useState } from 'react';
-import * as actions from '@/actions';
 
 interface SearchFormProps {
     rover?: string;
@@ -22,13 +20,10 @@ export default function SearchForm({ rover }: SearchFormProps) {
 
     return (
         <div className="m-8">
-            <form action={actions.redirectToSearch}>
-                <div className="flex flex-col items-center space-y-4">
-                    <RoverSelector currentRover={rover} handleRoverChange={handleRoverChange} />
-                    <DateSelector selectedRover={selectedRover}/>
-                    <FormButton>Search</FormButton>
-                </div>
-            </form>
+            <div className="flex flex-col items-center space-y-4">
+                <RoverSelector currentRover={rover} handleRoverChange={handleRoverChange} />
+                <DateSelector selectedRover={selectedRover}/> 
+            </div>
         </div>
     )
 }

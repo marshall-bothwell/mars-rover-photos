@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { SyntheticEvent } from 'react';
 
 interface ImageProps {
     src: string;
@@ -16,6 +17,10 @@ export default function Image({ src }: ImageProps) {
     const onLoad = () => {
         imgClassName += "visible opacity-100 blur-none";
         setLoaded(true);
+    }
+    const onError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+        (e.target as HTMLImageElement).src = src
+        
     }
 
     useEffect(() => {
@@ -35,7 +40,7 @@ export default function Image({ src }: ImageProps) {
     return (
         <div className="h-full w-full">
             { loaded ? null : <Skeleton className="h-full w-full absolute" /> }
-            <img className={imgClassName} ref={imageRef} src={src} onLoad={onLoad} loading="lazy" />
+            <img alt="A photo taken by a Mars Rover." className={imgClassName} ref={imageRef} src={src} onLoad={onLoad} onError={onError} loading="lazy" />
         </div>
     )
 }

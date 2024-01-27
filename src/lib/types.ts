@@ -46,3 +46,14 @@ export type Manifest = {
 export type ManifestApiResponse = {
   photo_manifest: Manifest
 }
+
+export type SavedPhoto = {
+  id: string,
+  created_at: string,
+  user_id: string,
+  rover_name: string,
+  camera_full_name: string,
+  earth_date: string,
+  sol: string,
+  image_source: string
+}

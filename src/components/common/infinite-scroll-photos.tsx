@@ -4,6 +4,7 @@ import { LoaderIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useQueryState } from 'nuqs';
+import { useSearchParams } from 'next/navigation';
 
 
 interface InfiniteScrollPhotosProps {
@@ -14,11 +15,12 @@ interface InfiniteScrollPhotosProps {
 export default function InfiniteScrollPhotos({ roverPhotos, pageSize }: InfiniteScrollPhotosProps) {
     const [page, setPage] = useState(1);
     const [camera] = useQueryState('camera');
-    const maxPages = Math.ceil(roverPhotos.length / pageSize);
+    const maxPages = Math.ceil(roverPhotos?.length / pageSize);
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         setPage(1);
-    }, [camera])
+    }, [camera, searchParams])
 
     const incrementPage = (inView: boolean) => {
         if (inView) {
@@ -31,7 +33,7 @@ export default function InfiniteScrollPhotos({ roverPhotos, pageSize }: Infinite
             <div className="flex flex-wrap justify-center">
                 {roverPhotos?.slice(0, page*pageSize)}
             </div>
-            {page >= maxPages ? 
+            {page >= maxPages || !maxPages ? 
                 null 
                 : 
                 <div className="h-96 flex flex-col justify-end items-center">

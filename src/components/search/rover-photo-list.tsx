@@ -10,13 +10,11 @@ import { useQueryState } from 'nuqs';
 import { useState, useEffect } from 'react';
 
 interface RoverPhotoListProps {
-    rover: string;
-    date: string;
     roverPhotos: RoverApiResponse;
     manifest: Manifest;
 }
 
-export default function RoverPhotoList({ roverPhotos, rover, date, manifest }: RoverPhotoListProps) {
+export default function RoverPhotoList({ roverPhotos, manifest }: RoverPhotoListProps) {
     const [session, setSession] = useState<Session | null>(null);
     const supabase = createSupabaseBrowserClient();
     const [camera] = useQueryState("camera");
@@ -60,7 +58,7 @@ export default function RoverPhotoList({ roverPhotos, rover, date, manifest }: R
 
     return (
         <div className="flex flex-col items-center">
-            <CameraSelector rover={rover} date={date} manifest={manifest} />
+            <CameraSelector manifest={manifest} />
             <InfiniteScrollPhotos roverPhotos={renderedRoverPhotos} pageSize={9} />
         </div>
     )

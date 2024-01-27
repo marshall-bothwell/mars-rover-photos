@@ -2,7 +2,11 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider';
+import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
+
+import Starfield from '@/components/common/starfield';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +25,10 @@ export default function RootLayout({
       <body className={inter.className} >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Header />
+          <NextTopLoader showSpinner={false} />
           {children}
+          <Toaster />
+          <Starfield />
         </ThemeProvider>
       </body>
     </html>

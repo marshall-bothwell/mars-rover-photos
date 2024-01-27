@@ -2,9 +2,12 @@
 
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { useToast } from '@/components/ui/use-toast';
+import { Check } from 'lucide-react';
 import Image from '@/components/common/image';
 import FormButton from '@/components/common/form-button';
 import { useFormState } from 'react-dom';
+import { useEffect } from 'react';
 import * as actions from '@/actions';
 
 interface RoverPhotoCardProps {
@@ -18,11 +21,62 @@ interface RoverPhotoCardProps {
 }
 
 export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, sol, imageSource, saveable, deletable}: RoverPhotoCardProps) {
-    const [formState, action] = useFormState(actions.saveRoverPhoto, { errors: {} });
+    const [saveFormState, saveAction] = useFormState(actions.saveRoverPhoto, { errors: {} });
+    const [deleteFormState, deleteAction] = useFormState(actions.deleteRoverPhoto, { errors: {} });
+    const { toast } = useToast();
+
+    useEffect(() => {
+        if (JSON.stringify(saveFormState.errors) !== "{}") {
+            toast({
+                title: "Error",
+                description: saveFormState.errors.message,
+                variant: "destructive"
+            })
+        } else if (saveFormState.success) {
+            toast({
+                title: "Success!",
+                description: "The photo has been saved to your profile."
+            })
+        }
+    }, [saveFormState.errors, saveFormState.success])
+
+    useEffect(() => {
+        if (JSON.stringify(deleteFormState.errors) !== "{}") {
+            toast({
+                title: "Error",
+                description: deleteFormState.errors.message,
+                variant: "destructive"
+            })
+        } else if (deleteFormState.success) {
+            toast({
+                title: "Success!",
+                description: "The photo has been deleted. Refresh the page to see your updated list of saved photos."
+            })
+        }
+    }, [deleteFormState.errors, deleteFormState.success])
+
+    const saveButton = (
+        <form action={saveAction} className="ml-auto">
+            <FormButton className="ml-auto" variant="ghost">Save Photo</FormButton>
+            <input type="hidden" value={roverName} name="roverName" />
+            <input type="hidden" value={cameraFullName} name="cameraFullName" />
+            <input type="hidden" value={earthDate} name="earthDate" />
+            <input type="hidden" value={sol} name="sol" />
+            <input type="hidden" value={imageSource} name="imageSource" />
+        </form>
+    )
+
+    const deleteButton = (
+        <form action={deleteAction} className="ml-auto">
+            <FormButton variant="ghost">Delete Photo</FormButton>
+            <input type="hidden" value={imageSource} name="imageSource" />
+        </form>
+    )
+
     return (
         <Dialog>
-            <Card className="sm:w-2/3 lg:w-1/4  m-4 shadow">
-                <form action={action}>
+            <div className="sm:w-2/3 lg:w-1/4  m-4 shadow">
+                <Card> 
                     <CardHeader>
                         <CardTitle>{roverName}</CardTitle>
                         <CardDescription>
@@ -35,19 +89,15 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
                         <DialogTrigger className="relative">
                             <Image src={imageSource}/>
                         </DialogTrigger>
-                        <div className="flex flex-row">
-                            { formState.errors.message ? <div className="text-red-300">{formState.errors.message}</div> : null }
-                            { formState.success ? <div className="text-green-300">Photo Saved</div> : null }
-                            { saveable ? <FormButton className="w-1/3 ml-auto" variant="ghost">Save Photo</FormButton> : null }
+                        <div className="flex flex-row items-center">
+                            { saveFormState.errors.message ? <div className="text-red-300">{saveFormState.errors.message}</div> : null }
+                            { saveFormState.success ? <Check color="#00ff1e"/> : null }
+                            { saveable ? saveButton : null }
+                            { deletable ? deleteButton : null}
                         </div>
                     </CardContent>
-                    <input type="hidden" value={roverName} name="roverName" />
-                    <input type="hidden" value={cameraFullName} name="cameraFullName" />
-                    <input type="hidden" value={earthDate} name="earthDate" />
-                    <input type="hidden" value={sol} name="sol" />
-                    <input type="hidden" value={imageSource} name="imageSource" />
-                </form>
-            </Card>
+                </Card>
+            </div>
             <DialogContent className="min-w-fit text-center">
                 <img className="min-w-full mt-4" src={imageSource} loading="lazy"/>
             </DialogContent>
