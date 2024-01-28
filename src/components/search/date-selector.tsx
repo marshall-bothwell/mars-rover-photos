@@ -3,12 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { Calendar as CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Manifest } from '@/lib/types';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { handleDisabledDays } from '@/lib/utils/handle-disabled-days';
+
 import * as actions from '@/actions';
 
 interface DateSelectorProps {
@@ -26,7 +28,7 @@ export default function DateSelector({ selectedRover }: DateSelectorProps) {
         if (searchedDate) {
             setDate(new Date(searchedDate+'T12:00:00'))
         }
-    }, [searchParams])
+    }, [])
 
     useEffect(() => {
         const updateManifest = async () => {
@@ -37,31 +39,16 @@ export default function DateSelector({ selectedRover }: DateSelectorProps) {
         updateManifest();
     }, [selectedRover])
 
-    const handleDisabledDays = (manifest: Manifest | undefined): {disabledDays: ({from: Date, to: Date} | Date)[], landingDate: Date, maxDate: Date} => {
-        let disabledDays: ({from: Date, to: Date} | Date)[] = [];
-        let landingDate = new Date();
-        let maxDate = new Date();
-        if (manifest) {
-            landingDate = new Date(manifest.landing_date+"T12:00:00")
-            maxDate = new Date(manifest.max_date+"T12:00:00")
-            let manifestIter = 0;
-
-            for ( let iter = new Date(manifest.landing_date+'T12:00:00'); iter < new Date(manifest.max_date); iter.setDate(iter.getDate() + 1) ) {
-                if (iter.toISOString().split('T')[0] === manifest.photos[manifestIter].earth_date) {
-                    manifestIter += 1;
-                } else {
-                    disabledDays.unshift(new Date(iter));
-                }
-            }
-        }
-        return { disabledDays, landingDate, maxDate };
-    }
     const { disabledDays, landingDate, maxDate } = handleDisabledDays(manifest)
 
     let formattedDate = "";
+    let defaultMonth = maxDate
 
     if (date) {
         formattedDate = format(date, 'y-MM-dd');
+        if (date >= landingDate && date <= maxDate) {
+            defaultMonth = date;
+        }
     }
 
     return (
@@ -80,7 +67,7 @@ export default function DateSelector({ selectedRover }: DateSelectorProps) {
                         selected={date}
                         onSelect={setDate}
                         disabled={disabledDays}
-                        defaultMonth={maxDate}
+                        defaultMonth={defaultMonth}
                         fromDate={landingDate}
                         toDate={maxDate}
                         initialFocus 

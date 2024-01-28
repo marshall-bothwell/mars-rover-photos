@@ -3,6 +3,7 @@ import RoverPhotoCard from '@/components/common/rover-photo-card';
 import InfiniteScrollPhotos from "@/components/common/infinite-scroll-photos";
 import CopyUrlButton from "@/components/common/copy-url-button";
 import { SavedPhoto } from '@/lib/types';
+import { cookies } from "next/headers";
 
 interface SavedPhotosPageProps {
     params: {
@@ -21,10 +22,12 @@ interface SavedPhotosPageProps {
 // The benefits of caching these profile pages do not outweigh the cost in user experience.
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) {
     const { userslug } = params;
-    const supabase = createSupabaseServerClient();
+    const cookieStore = cookies()
+    const supabase = createSupabaseServerClient(cookieStore);
     const { data: { user } } = await supabase.auth.getUser();
     const { data, error }  = await supabase.from("saved_photos").select().eq('user_id', userslug);
 
@@ -50,7 +53,7 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
         <div>
             <div className="text-center mt-4">
                 <CopyUrlButton />
-                <h1 className="text-4xl font-bold">Copy the link to this page and share it! Anyone can view your saved photos.</h1>
+                <h1 className="text-4xl font-bold mt-4">Copy the link to this page and share it!</h1>
             </div>
             <div className="flex flex-wrap justify-center">
                 <InfiniteScrollPhotos roverPhotos={renderedSavedPhotos} pageSize={9} />

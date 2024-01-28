@@ -12,7 +12,7 @@ export default function Image({ src }: ImageProps) {
     const imageRef = useRef<HTMLImageElement>(null);
     const [loaded, setLoaded] = useState(false);
 
-    let imgClassName = "transition duration-1000";
+    let imgClassName = "w-full h-auto transition duration-1000";
 
     const onLoad = () => {
         imgClassName += "visible opacity-100 blur-none";

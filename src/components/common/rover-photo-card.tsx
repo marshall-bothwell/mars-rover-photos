@@ -3,7 +3,7 @@
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Check } from 'lucide-react';
+import { Check, Trash2 } from 'lucide-react';
 import Image from '@/components/common/image';
 import FormButton from '@/components/common/form-button';
 import { useFormState } from 'react-dom';
@@ -75,8 +75,8 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
 
     return (
         <Dialog>
-            <div className="sm:w-2/3 lg:w-1/4  m-4 shadow">
-                <Card> 
+            <div className="row-auto col-span-1 m-4 shadow">
+                <Card className="bg-transparent border-none"> 
                     <CardHeader>
                         <CardTitle>{roverName}</CardTitle>
                         <CardDescription>
@@ -90,8 +90,8 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
                             <Image src={imageSource}/>
                         </DialogTrigger>
                         <div className="flex flex-row items-center">
-                            { saveFormState.errors.message ? <div className="text-red-300">{saveFormState.errors.message}</div> : null }
-                            { saveFormState.success ? <Check color="#00ff1e"/> : null }
+                            { saveFormState.success ? <Check color="#00ff1e" /> : null }
+                            { deleteFormState.success ? <Trash2 className="animate-bounce"/> : null}
                             { saveable ? saveButton : null }
                             { deletable ? deleteButton : null}
                         </div>
@@ -99,7 +99,7 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
                 </Card>
             </div>
             <DialogContent className="min-w-fit text-center">
-                <img className="min-w-full mt-4" src={imageSource} loading="lazy"/>
+                <img className="min-w-full h-auto mt-4" src={imageSource} loading="lazy"/>
             </DialogContent>
         </Dialog>
     )

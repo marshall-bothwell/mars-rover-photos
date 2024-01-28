@@ -1,9 +1,7 @@
 import SearchForm from '@/components/search/search-form';
 import RoverPhotoList from '@/components/search/rover-photo-list';
-import RoverPhotoListSkeleton from '@/components/search/rover-photo-list-skeleton';
 import { Separator } from '@/components/ui/separator';
 import { fetchRoverPhotos } from '@/lib/utils/fetch-rover-photos';
-import { Suspense } from 'react';
 import * as actions from '@/actions';
 
 import { RoverApiResponse, Manifest } from '@/lib/types';
@@ -33,11 +31,14 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             <SearchForm rover={rover} />
             <Separator />
             { roverPhotos && manifest ?
-                <Suspense fallback={<RoverPhotoListSkeleton />}>
-                    <RoverPhotoList roverPhotos={roverPhotos} manifest={manifest} />
-                </Suspense>
+                <RoverPhotoList roverPhotos={roverPhotos} manifest={manifest} />
                 : null
             }
         </div>
     )
 }
+/*
+<Suspense fallback={<RoverPhotoListSkeleton />}>
+    <RoverPhotoList roverPhotos={roverPhotos} manifest={manifest} />
+</Suspense>
+*/

@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
+import { cookies } from 'next/headers';
 
 interface DeleteRoverPhotoFormState {
     errors: {
@@ -10,7 +11,8 @@ interface DeleteRoverPhotoFormState {
 }
 
 export async function deleteRoverPhoto(formState: DeleteRoverPhotoFormState, formData: FormData): Promise<DeleteRoverPhotoFormState> {
-    const supabase = createSupabaseServerActionClient();
+    const cookieStore = cookies()
+    const supabase = createSupabaseServerActionClient(cookieStore);
     
     const { data: { session } } = await supabase.auth.getSession();
 
@@ -27,7 +29,7 @@ export async function deleteRoverPhoto(formState: DeleteRoverPhotoFormState, for
     if (error) {
         return { errors: { message: error.message } }
     } else if (data.length === 0) {
-        return { errors: { message: "You have already deleted this photo."} } // display a deleted icon on photos to discourage users from double-deletion
+        return { errors: { message: "You have already deleted this photo."}, success: true } // display a deleted icon on photos to discourage users from double-deletion
     } else {
         return { errors: {}, success: true }
     }

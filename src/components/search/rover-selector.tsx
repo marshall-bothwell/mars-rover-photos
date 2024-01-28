@@ -9,7 +9,7 @@ interface RoverSelectorProps {
 export default function RoverSelector({ currentRover, handleRoverChange }: RoverSelectorProps) {
 
     return (
-        <RadioGroup className="flex flex-row" name="rover" defaultValue={currentRover} onValueChange={handleRoverChange} >
+        <RadioGroup className="flex flex-row flex-wrap items-center" name="rover" defaultValue={currentRover} onValueChange={handleRoverChange} >
             <div className="flex items-center space-x-2">
                 <RadioGroupItem value="perseverance" id="perseverance" />
                 <Label htmlFor="perseverance">Perseverance</Label>

@@ -18,9 +18,6 @@ export default function RoverPhotoList({ roverPhotos, manifest }: RoverPhotoList
     const [session, setSession] = useState<Session | null>(null);
     const supabase = createSupabaseBrowserClient();
     const [camera] = useQueryState("camera");
-    //console.log(camera);
-    
-    let saveable = false;
 
     useEffect(() => {
         const getSession = async () => {
@@ -29,10 +26,6 @@ export default function RoverPhotoList({ roverPhotos, manifest }: RoverPhotoList
         }
         getSession();
     }, [])
-
-    if (session?.user) {
-        saveable = true;
-    }
 
     const renderedRoverPhotos = roverPhotos.photos?.
         filter((photo) => {
@@ -51,7 +44,7 @@ export default function RoverPhotoList({ roverPhotos, manifest }: RoverPhotoList
                     earthDate={photo.earth_date}
                     sol={photo.sol}
                     imageSource={photo.img_src}
-                    saveable={saveable}
+                    saveable={!!session?.user}
                 />
             )
         })

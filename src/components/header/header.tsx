@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Rocket } from 'lucide-react';
-import { DarkModeToggle } from '@/components/common/dark-mode-toggle';
 import { Separator } from '@/components/ui/separator';
-import HeaderAuth from '@/components/header-auth';
+import HeaderAuth from '@/components/header/header-auth';
 
 
 export default function Header() {
@@ -16,9 +15,6 @@ export default function Header() {
                 </Link>
                 <div className="ml-auto flex flex-row space-x-2">
                     <HeaderAuth />
-                </div>
-                <div className="ml-4">
-                    <DarkModeToggle />
                 </div>
             </div>
             <Separator className="shadow "/>

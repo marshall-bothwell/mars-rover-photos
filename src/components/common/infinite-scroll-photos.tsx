@@ -17,7 +17,7 @@ export default function InfiniteScrollPhotos({ roverPhotos, pageSize }: Infinite
     const [camera] = useQueryState('camera');
     const maxPages = Math.ceil(roverPhotos?.length / pageSize);
     const searchParams = useSearchParams();
-
+    
     useEffect(() => {
         setPage(1);
     }, [camera, searchParams])
@@ -30,7 +30,7 @@ export default function InfiniteScrollPhotos({ roverPhotos, pageSize }: Infinite
 
     return (
         <div>
-            <div className="flex flex-wrap justify-center">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 w-[95vw]">
                 {roverPhotos?.slice(0, page*pageSize)}
             </div>
             {page >= maxPages || !maxPages ? 
@@ -41,7 +41,7 @@ export default function InfiniteScrollPhotos({ roverPhotos, pageSize }: Infinite
                         Keep scrolling to load more photos...
                     </div>
                     <InView as="div" onChange={(inView, entry) => incrementPage(inView)}>
-                        <LoaderIcon size={128} />
+                        <LoaderIcon size={128} className="opacity-0"/>
                     </InView>
                 </div>
                 }

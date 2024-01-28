@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
+import { cookies } from 'next/headers';
 
 interface SaveRoverPhotoFormState {
     errors: {
@@ -10,7 +11,8 @@ interface SaveRoverPhotoFormState {
 }
 
 export async function saveRoverPhoto(formState: SaveRoverPhotoFormState, formData: FormData): Promise<SaveRoverPhotoFormState> {
-    const supabase = createSupabaseServerActionClient();
+    const cookieStore = cookies()
+    const supabase = createSupabaseServerActionClient(cookieStore);
     const { data: { user } } = await supabase.auth.getUser();
     const userId = user?.id;
 
@@ -33,7 +35,7 @@ export async function saveRoverPhoto(formState: SaveRoverPhotoFormState, formDat
 
     if (error) {
         if (error.message === 'duplicate key value violates unique constraint "unique_image_user"') {
-            return { errors: { message: "You have already saved this photo."} }
+            return { errors: { message: "You have already saved this photo."}, success: true }
         }
         return { errors: { message: error.message } }
     } else {

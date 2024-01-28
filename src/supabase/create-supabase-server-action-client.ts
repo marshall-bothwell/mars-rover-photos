@@ -1,7 +1,7 @@
-import { createServerClient } from '@supabase/ssr';
+import { type CookieOptions, createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
-export function createSupabaseServerActionClient() {
+export function createSupabaseServerActionClient(cookieStore: ReturnType<typeof cookies>) {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
         throw new Error("Can't find Supabase credentials in environment variables.");
     }
@@ -11,13 +11,13 @@ export function createSupabaseServerActionClient() {
         {
             cookies: {
                 get(name) {
-                    return cookies().get(name)?.value;
+                    return cookieStore.get(name)?.value;
                 },
-                set(name, value, options) {
-                    cookies().set(name, value, options);
+                set(name, value, options: CookieOptions) {
+                    cookieStore.set({name, value, ...options});
                 },
-                remove(name, options) {
-                    cookies().set(name, "", options);
+                remove(name, options: CookieOptions) {
+                    cookieStore.set({name, value: "", ...options});
                 }
             }
         }

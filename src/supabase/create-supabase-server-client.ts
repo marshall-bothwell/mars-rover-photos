@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
 // Server components do not have access to set or delete cookies.
-export function createSupabaseServerClient() {
+export function createSupabaseServerClient(cookieStore: ReturnType<typeof cookies>) {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
         throw new Error("Can't find Supabase credentials in environment variables.");
     }
@@ -12,7 +12,7 @@ export function createSupabaseServerClient() {
         {
             cookies: {
                 get(name) {
-                    return cookies().get(name)?.value;
+                    return cookieStore.get(name)?.value;
                 }
             }
         }
