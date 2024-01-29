@@ -8,13 +8,15 @@ export async function signInWithGithub() {
     const cookieStore = cookies()
     const supabase = createSupabaseServerActionClient(cookieStore);
     const headersList = headers()
-    const fullUrl = headersList.get('referer' || "");
-    console.log(fullUrl)
+    const fullUrlString = headersList.get('referer');
+    const fullUrl = new URL(fullUrlString ?? "")
+    const { origin } = fullUrl
+    console.log(origin)
 
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
-            redirectTo: `http://localhost:3000/auth/callback?returnTo=${fullUrl}`
+            redirectTo: `${origin}/auth/callback?returnToAddress=${fullUrlString}`
         }
     })
     if (!error) {
