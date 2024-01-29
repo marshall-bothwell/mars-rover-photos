@@ -10,7 +10,7 @@ export default function Home() {
                 Search photos from any of the four Mars Rovers<br /><br />
                 Dates are automatically filtered - no sifting through empty pages<br /><br />
                 Create an account or sign in through GitHub to save photos<br /><br />
-                Share any interesting photos you find by giving friends a link to your profile page
+                Share any interesting photos you find by through a link to your profile page
                 </p>
             </div>
             <SearchForm />
