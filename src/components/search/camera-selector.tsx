@@ -32,14 +32,10 @@ export default function CameraSelector({ manifest }: CameraSelectorProps) {
     )
 
     return (
-        <div>
+        <div className="lg:mx-20">
             <RadioGroup className="flex flex-row flex-wrap mx-8 mt-4 items-center" value={camera || "all"} onValueChange={(selection) => {setCamera(selection)}}>
                 {cameras}
             </RadioGroup>
         </div>
     )
 }
-
-/* RadioGroup flex classname
-"flex flex-row flex-wrap mx-8 mt-4"
-*/

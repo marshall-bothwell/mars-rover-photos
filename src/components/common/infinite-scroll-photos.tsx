@@ -31,7 +31,7 @@ export default function InfiniteScrollPhotos({ roverPhotos, pageSize }: Infinite
     return (
         <div>
             <div className="grid md:grid-cols-2 xl:grid-cols-3 w-[95vw]">
-                {roverPhotos?.slice(0, page*pageSize)}
+                { roverPhotos?.slice(0, page*pageSize) }
             </div>
             {page >= maxPages || !maxPages ? 
                 null 

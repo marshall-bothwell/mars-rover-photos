@@ -35,8 +35,6 @@ export default function Image({ src }: ImageProps) {
         imgClassName += "invisible opacity-0 blur-sm";
     }
 
-    // { loaded ? null : <div className="bg-red-400 h-full w-full absolute"></div>}
-
     return (
         <div className="h-full w-full">
             { loaded ? null : <Skeleton className="h-full w-full absolute" /> }

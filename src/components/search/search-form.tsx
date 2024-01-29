@@ -20,7 +20,7 @@ export default function SearchForm({ rover }: SearchFormProps) {
 
     return (
         <div className="m-8">
-            <div className="flex flex-col items-center space-y-4">
+            <div className="flex flex-col items-center space-y-8">
                 <RoverSelector currentRover={rover} handleRoverChange={handleRoverChange} />
                 <DateSelector selectedRover={selectedRover}/> 
             </div>

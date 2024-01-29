@@ -1,6 +1,8 @@
 "use server";
 
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
+import { redirect, RedirectType } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
 import { z } from 'zod';
 
@@ -27,8 +29,10 @@ interface SignInFormState {
 export async function signIn(formState: SignInFormState, formData: FormData): Promise<SignInFormState> {
     const cookieStore = cookies();
     const supabase = createSupabaseServerActionClient(cookieStore);
-
-    console.log("Signing In")
+    const headersList = headers()
+    const domain = headersList.get('host') || "";
+    const fullUrl = headersList.get('referer') || "";
+    const [,pathname] = fullUrl.match( new RegExp(`https?:\/\/${domain}(.*)`))||[];
 
     const result = signInSchema.safeParse({
         email: formData.get('email'),
@@ -43,7 +47,7 @@ export async function signIn(formState: SignInFormState, formData: FormData): Pr
 
     const data = { email: result.data.email, password: result.data.password };
 
-    const { data: authReturn, error } = await supabase.auth.signInWithPassword(data);
+    const { error } = await supabase.auth.signInWithPassword(data);
 
     if (error) {
         return {
@@ -53,10 +57,6 @@ export async function signIn(formState: SignInFormState, formData: FormData): Pr
         }
     }
 
-    console.log(authReturn)
-
-    return {
-        errors: {},
-        success: true
-    }
+    revalidatePath(pathname)
+    redirect(fullUrl || '/', 'replace' as RedirectType);
 }

@@ -1,6 +1,5 @@
 import SearchForm from '@/components/search/search-form';
 import RoverPhotoList from '@/components/search/rover-photo-list';
-import { Separator } from '@/components/ui/separator';
 import { fetchRoverPhotos } from '@/lib/utils/fetch-rover-photos';
 import * as actions from '@/actions';
 
@@ -13,8 +12,6 @@ interface SearchPageProps {
     }
 }
 
-// TODO: Examine whether we still need RoverPhotoListSkeleton and suspense here.
-
 export default async function SearchPage({ searchParams }: SearchPageProps) {
     const { rover, date } = searchParams;
     let roverPhotos: RoverApiResponse | undefined;
@@ -25,11 +22,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         manifest = photo_manifest;
     }
 
-
     return (
         <div>
-            <SearchForm rover={rover} />
-            <Separator />
+            <SearchForm rover={rover} />          
             { roverPhotos && manifest ?
                 <RoverPhotoList roverPhotos={roverPhotos} manifest={manifest} />
                 : null
@@ -37,8 +32,3 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         </div>
     )
 }
-/*
-<Suspense fallback={<RoverPhotoListSkeleton />}>
-    <RoverPhotoList roverPhotos={roverPhotos} manifest={manifest} />
-</Suspense>
-*/

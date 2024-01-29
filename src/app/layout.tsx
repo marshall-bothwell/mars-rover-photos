@@ -6,7 +6,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header/header';
 
-import Starfield from '@/components/common/starfield';
+import SpaceBackground from '@/components/common/space-background';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,9 +26,11 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Header />
           <NextTopLoader showSpinner={false} />
-          {children}
+          <div className="select-none">
+            {children}
+          </div>
           <Toaster />
-          <Starfield />
+          <SpaceBackground starCount={8000}/>
         </ThemeProvider>
       </body>
     </html>

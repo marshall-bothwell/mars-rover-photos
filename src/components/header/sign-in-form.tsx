@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import FormButton from '@/components/common/form-button';
+import { AiFillGithub } from 'react-icons/ai';
 import { useFormState } from 'react-dom';
 import * as actions from '@/actions';
 
@@ -21,7 +22,7 @@ export default function SignInForm() {
             <DialogContent className="w-[90vw] sm:w-auto rounded-xl">
                 <DialogHeader>
                     <DialogTitle>Sign In</DialogTitle>
-                    <DialogDescription>Sign in with your email address, or use your Google or Github account.</DialogDescription>
+                    <DialogDescription>Sign in with email</DialogDescription>
                 </DialogHeader>
                 <form action={signInAction}>
                     { !!signUpState.errors._form ? <p className="text-sm text-red-400 text-right mb-2">{signUpState.errors._form}</p> : null }
@@ -47,13 +48,10 @@ export default function SignInForm() {
                 <Separator />
                 <DialogFooter>
                     <div className="flex flex-col w-full">
-                    <DialogDescription className="mb-4">Sign in with Github or Google</DialogDescription>
+                    <DialogDescription className="mb-4">Sign in with a provider</DialogDescription>
                     <div className="flex flex-row-reverse">
-                        <form action={actions.signInWithGithub}>
-                            <FormButton className="ml-6" variant="outline" size="sm">Github</FormButton>
-                        </form>
                         <form>
-                            <FormButton variant="outline" size="sm">Google</FormButton>
+                            <FormButton variant="outline" size="sm" action={actions.signInWithGithub}><AiFillGithub size={24}/></FormButton>
                         </form>
                     </div>
                     </div>

@@ -13,11 +13,14 @@ interface FormButtonProps {
 }
 
 export default function FormButton({ children, className, variant, size, action }: FormButtonProps) {
-    const { pending } = useFormStatus();
-
+    const { action: submittedAction, pending } = useFormStatus();
+    let isPending = false;
+    if (action === submittedAction) {
+        isPending = pending;
+    }
     return (
         <Button type="submit" className={className} variant={variant} size={size} formAction={action}>
-            { pending ? <LoaderIcon className="animate-spin"/> : null }
+            { isPending ? <LoaderIcon className="animate-spin"/> : null }
             {children}
         </Button>
     )

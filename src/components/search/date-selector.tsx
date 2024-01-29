@@ -74,7 +74,7 @@ export default function DateSelector({ selectedRover }: DateSelectorProps) {
                     />
                 </PopoverContent>
             </Popover>
-            <Button asChild>
+            <Button variant="outline" asChild>
                 <Link href={`/search?rover=${selectedRover}&date=${formattedDate}&camera=all`}>Search</Link>
             </Button>
         </div>

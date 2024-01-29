@@ -1,19 +1,18 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
-interface Props {
+interface SpaceBackgroundProps {
 	speedFactor?: number;
 	backgroundColor?: string;
-	starColor?: [number, number, number];
 	starCount?: number;
 }
 
-export default function Starfield(props: Props) {
-	const { speedFactor = 0.05, backgroundColor = 'black', starColor = [255, 255, 255], starCount = 5000 } = props;
+export default function SpaceBackground(props: SpaceBackgroundProps) {
+	const { speedFactor = 0.05, backgroundColor = 'black', starCount = 5000 } = props;
 
 	useEffect(() => {
-		const canvas = document.getElementById('starfield') as HTMLCanvasElement;
+		const canvas = document.getElementById('space') as HTMLCanvasElement;
 
 		if (canvas) {
 			const c = canvas.getContext('2d');
@@ -21,12 +20,12 @@ export default function Starfield(props: Props) {
 			if (c) {
 				c.beginPath();
 
-				let w = window.innerWidth;
-				let h = window.innerHeight;
+				let windowWidth = window.innerWidth;
+				let windowHeight = window.innerHeight;
 
 				const setCanvasExtents = () => {
-					canvas.width = w;
-					canvas.height = h;
+					canvas.width = windowWidth;
+					canvas.height = windowHeight;
 				};
 
 				setCanvasExtents();
@@ -38,10 +37,17 @@ export default function Starfield(props: Props) {
 				const makeStars = (count: number) => {
 					const out = [];
 					for (let i = 0; i < count; i++) {
+						let color: number[]
+						if (Math.random() > .8) {
+							color = [255, Math.ceil((Math.random()*55)+200), Math.ceil(Math.random()*255)]
+						} else {
+							color = [255, 255, 255]
+						}
 						const s = {
 							x: Math.random() * 1600 - 800,
 							y: Math.random() * 900 - 450,
 							z: Math.random() * 1000,
+							color: color
 						};
 						out.push(s);
 					}
@@ -55,17 +61,10 @@ export default function Starfield(props: Props) {
 					c.fillRect(0, 0, canvas.width, canvas.height);
 				};
 
-				const putPixel = (x: number, y: number, brightness: number) => {
-					const rgb = 'rgba(' + starColor[0] + ',' + starColor[1] + ',' + starColor[2] + ',' + brightness + ')';
-					c.fillStyle = rgb;
-					//Stars will flash yellowish with this enabled. anytime they are drawn on an odd x coord, they will be yellow.
-					/*
-					if (Math.floor(x) % 2 === 0) {
-						c.fillStyle = 'rgba(' + starColor[0] + ',' + starColor[1] + ',' + 155 + ',' + brightness + ')';
-					}
-					*/
+				const putPixel = (x: number, y: number, brightness: number, color: number[]) => {
+					const rgba = 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + brightness + ')';
+					c.fillStyle = rgba;
 					c.fillRect(x, y, 1, 1);
-					
 				};
 
 				const moveStars = (distance: number) => {
@@ -93,8 +92,8 @@ export default function Starfield(props: Props) {
 
 					clear();
 
-					const cx = w / 2;
-					const cy = h / 2;
+					const cx = windowWidth / 2;
+					const cy = windowHeight / 2;
 
 					const count = stars.length;
 					
@@ -104,13 +103,13 @@ export default function Starfield(props: Props) {
 						const x = cx + star.x / (d);
 						const y = cy + star.y / (d);
 
-						if (x < 0 || x >= w || y < 0 || y >= h) {
+						if (x < 0 || x >= windowWidth || y < 0 || y >= windowHeight) {
 							continue;
 						}
 
 						const b = 1 - d * d;
 
-						putPixel(x, y, b);
+						putPixel(x, y, b, star.color);
 					}
 
 					requestAnimationFrame(tick);
@@ -118,12 +117,13 @@ export default function Starfield(props: Props) {
 
 				requestAnimationFrame(init);
 
-				// add window resize listener:
-				window.addEventListener('resize', function () {
-					w = window.innerWidth;
-					h = window.innerHeight;
+				window.addEventListener('resize', () => {
+					windowWidth = window.innerWidth;
+					windowHeight = window.innerHeight;
 					setCanvasExtents();
 				});
+
+				c.closePath()
 			} else {
 				console.error('Could not get 2d context from canvas element');
 			}
@@ -134,11 +134,11 @@ export default function Starfield(props: Props) {
 		return () => {
 			window.onresize = null;
 		};
-	}, [starColor, backgroundColor, speedFactor, starCount]);
+	}, [backgroundColor, speedFactor, starCount]);
 
 	return (
 		<canvas
-			id="starfield"
+			id="space"
 			className="fixed inset-0 z-[-1] opacity-100 mix-blend-screen pointer-events-none"
 		></canvas>
 	);

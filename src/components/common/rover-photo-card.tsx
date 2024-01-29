@@ -56,8 +56,8 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
     }, [deleteFormState.errors, deleteFormState.success])
 
     const saveButton = (
-        <form action={saveAction} className="ml-auto">
-            <FormButton className="ml-auto" variant="ghost">Save Photo</FormButton>
+        <form className="ml-auto">
+            <FormButton className="ml-auto" variant="ghost" action={saveAction}>Save Photo</FormButton>
             <input type="hidden" value={roverName} name="roverName" />
             <input type="hidden" value={cameraFullName} name="cameraFullName" />
             <input type="hidden" value={earthDate} name="earthDate" />
@@ -67,8 +67,8 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
     )
 
     const deleteButton = (
-        <form action={deleteAction} className="ml-auto">
-            <FormButton variant="ghost">Delete Photo</FormButton>
+        <form className="ml-auto">
+            <FormButton variant="ghost" action={deleteAction}>Delete Photo</FormButton>
             <input type="hidden" value={imageSource} name="imageSource" />
         </form>
     )

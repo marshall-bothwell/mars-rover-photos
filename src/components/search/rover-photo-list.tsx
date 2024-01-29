@@ -52,7 +52,7 @@ export default function RoverPhotoList({ roverPhotos, manifest }: RoverPhotoList
     return (
         <div className="flex flex-col items-center">
             <CameraSelector manifest={manifest} />
-            <InfiniteScrollPhotos roverPhotos={renderedRoverPhotos} pageSize={9} />
+            <InfiniteScrollPhotos roverPhotos={renderedRoverPhotos} pageSize={12} />
         </div>
     )
 }

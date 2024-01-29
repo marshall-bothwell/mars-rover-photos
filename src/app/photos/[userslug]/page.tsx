@@ -11,16 +11,6 @@ interface SavedPhotosPageProps {
     }
 }
 
-// We never want to cache the saved photos page.
-//
-// By default, the full route cache caches the user's saved photos page on the first visit
-// Every subsequent visit will serve the cached page until a revalidation occurs,
-// So users will save a photo from their search, navigate to their saved page, and not see the new photo
-// We could manually revalidate the page on deletes and inserts to the table
-// But calling revalidate in the server actions used to manipulate the table refreshes the page,
-// Causing the user to lose their place in their search.
-// The benefits of caching these profile pages do not outweigh the cost in user experience.
-
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -29,7 +19,7 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
     const cookieStore = cookies()
     const supabase = createSupabaseServerClient(cookieStore);
     const { data: { user } } = await supabase.auth.getUser();
-    const { data, error }  = await supabase.from("saved_photos").select().eq('user_id', userslug);
+    const { data }  = await supabase.from("saved_photos").select().eq('user_id', userslug);
 
     const deletable = user?.id === userslug;
 
@@ -51,10 +41,16 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
 
     return (
         <div>
-            <div className="text-center mt-4">
-                <CopyUrlButton />
-                <h1 className="text-4xl font-bold mt-4">Copy the link to this page and share it!</h1>
-            </div>
+            {
+                deletable ? 
+                    <div className="text-center mt-4 space-y-4 flex flex-col items-center">
+                        <h1 className="text-5xl font-bold px-8 bg-gradient-to-r from-teal-200 via-cyan-400 to-cyan-200 inline-block text-transparent bg-clip-text">Your Saved Photos</h1>
+                        <CopyUrlButton />
+                        <p className="px-8 text-lg text-center">Anyone can view your saved photos from this link</p>
+                    </div>
+                    :
+                    null
+            }
             <div className="flex flex-wrap justify-center">
                 <InfiniteScrollPhotos roverPhotos={renderedSavedPhotos} pageSize={9} />
             </div>
