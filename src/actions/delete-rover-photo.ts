@@ -2,6 +2,7 @@
 
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
 import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 
 interface DeleteRoverPhotoFormState {
     errors: {
@@ -31,6 +32,7 @@ export async function deleteRoverPhoto(formState: DeleteRoverPhotoFormState, for
     } else if (data.length === 0) {
         return { errors: { message: "You have already deleted this photo."}, success: true } // display a deleted icon on photos to discourage users from double-deletion
     } else {
+        revalidatePath(`/photos/${userId}`);
         return { errors: {}, success: true }
     }
 }
