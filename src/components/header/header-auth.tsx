@@ -5,6 +5,7 @@ import FormButton from '@/components/common/form-button';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { PopoverClose } from '@radix-ui/react-popover';
 import { User as UserIcon } from 'lucide-react';
 import type { User, UserMetadata } from "@supabase/supabase-js";
 import { useEffect, useState } from 'react';
@@ -42,9 +43,11 @@ export default function HeaderAuth() {
                     <PopoverContent align="end" className="bg-transparent border-none">
                         <div className="flex flex-col space-y-2">
                             <div>
-                            <Button asChild variant="outline">
-                                <Link href={`/photos/${user.id}`}>Saved Photos</Link>
-                            </Button>
+                            <PopoverClose asChild>
+                                <Button asChild variant="outline">
+                                    <Link href={`/photos/${user.id}`}>Saved Photos</Link>
+                                </Button>
+                            </PopoverClose>
                             </div>
                             <form>
                                 <FormButton variant="outline" action={actions.signOut}>Sign Out</FormButton>

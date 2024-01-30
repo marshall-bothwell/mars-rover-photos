@@ -44,9 +44,8 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
             {
                 deletable ? 
                     <div className="text-center mt-4 space-y-4 flex flex-col items-center">
-                        <h1 className="text-5xl font-bold px-8 bg-gradient-to-r from-teal-200 via-cyan-400 to-cyan-200 inline-block text-transparent bg-clip-text">Your Saved Photos</h1>
+                        <h1 className="text-5xl font-bold px-8 bg-gradient-to-r from-teal-200 via-cyan-400 to-cyan-200 inline-block text-transparent bg-clip-text">Saved Photos</h1>
                         <CopyUrlButton />
-                        <p className="px-8 text-lg text-center">Anyone can view your saved photos from this link</p>
                     </div>
                     :
                     null
