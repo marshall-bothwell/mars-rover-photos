@@ -30,7 +30,7 @@ export async function deleteRoverPhoto(formState: DeleteRoverPhotoFormState, for
     if (error) {
         return { errors: { message: error.message } }
     } else if (data.length === 0) {
-        return { errors: { message: "You have already deleted this photo."}, success: true } // display a deleted icon on photos to discourage users from double-deletion
+        return { errors: { message: "You have already deleted this photo."}, success: true }
     } else {
         revalidatePath(`/photos/${userId}`);
         return { errors: {}, success: true }

@@ -34,7 +34,7 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
             })
         } else if (saveFormState.success) {
             toast({
-                title: "Success!",
+                title: "Success",
                 description: "The photo has been saved to your profile."
             })
         }
@@ -47,13 +47,8 @@ export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, s
                 description: deleteFormState.errors.message,
                 variant: "destructive"
             })
-        } else if (deleteFormState.success) {
-            toast({
-                title: "Success!",
-                description: "The photo has been deleted. Refresh the page to see your updated list of saved photos."
-            })
-        }
-    }, [deleteFormState.errors, deleteFormState.success])
+        } 
+    }, [deleteFormState.errors])
 
     const saveButton = (
         <form className="ml-auto">

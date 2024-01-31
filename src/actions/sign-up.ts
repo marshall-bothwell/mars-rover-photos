@@ -1,8 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
 import { z } from 'zod';
 
@@ -29,8 +27,6 @@ interface SignUpFormState {
 export async function signUp(formState: SignUpFormState, formData: FormData): Promise<SignUpFormState> {
     const cookieStore = cookies();
     const supabase = createSupabaseServerActionClient(cookieStore);
-
-    console.log("Signing Up")
 
     const result = signUpSchema.safeParse({
         email: formData.get("email"),
@@ -60,8 +56,6 @@ export async function signUp(formState: SignUpFormState, formData: FormData): Pr
             }
         }
     }
-
-    console.log(authReturn)
 
     return {
         errors: {},

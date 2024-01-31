@@ -2,7 +2,6 @@
 
 import { cookies, headers } from 'next/headers';
 import { redirect, RedirectType } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
 import { z } from 'zod';
 
@@ -30,9 +29,7 @@ export async function signIn(formState: SignInFormState, formData: FormData): Pr
     const cookieStore = cookies();
     const supabase = createSupabaseServerActionClient(cookieStore);
     const headersList = headers()
-    const domain = headersList.get('host') || "";
     const fullUrl = headersList.get('referer') || "";
-    const [,pathname] = fullUrl.match( new RegExp(`https?:\/\/${domain}(.*)`))||[];
 
     const result = signInSchema.safeParse({
         email: formData.get('email'),
@@ -57,6 +54,5 @@ export async function signIn(formState: SignInFormState, formData: FormData): Pr
         }
     }
 
-    revalidatePath(pathname)
     redirect(fullUrl || '/', 'replace' as RedirectType);
 }

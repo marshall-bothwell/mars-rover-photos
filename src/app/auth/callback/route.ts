@@ -5,21 +5,13 @@ import { type CookieOptions, createServerClient } from '@supabase/ssr';
 export async function GET(request: Request) {
     const requestUrl = new URL(request.url);
     const { searchParams, origin } = requestUrl;
-    console.log("Origin: " + origin);
-    console.log("Search Parameters: " + searchParams);
     const code = searchParams.get('code');
-    let returnToAddress = searchParams.get('returnToAddress');
-    const date = searchParams.get('date');
-    const camera = searchParams.get('camera');
+    const returnPath = searchParams.get('pathname');
+    searchParams.delete('code');
+    searchParams.delete('pathname');
 
-    if (date) {
-        returnToAddress = returnToAddress + '&date=' + date;
-    }
-    if (camera) {
-        returnToAddress = returnToAddress + '&camera=' + camera;
-    }
+    const returnUrl = `${origin}${returnPath}${searchParams.get('rover') !== 'null' ? '?' + searchParams : ''}`;
 
-    console.log("Returning to " + returnToAddress);
     if (code) {
         const cookieStore = cookies()
         const supabase = createServerClient(
@@ -42,7 +34,7 @@ export async function GET(request: Request) {
 
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         if (!error) {
-            return NextResponse.redirect(returnToAddress || requestUrl.origin);
+            return NextResponse.redirect(returnUrl || requestUrl.origin);
         } else {
                 console.log(error);
         }

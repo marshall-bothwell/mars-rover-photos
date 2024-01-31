@@ -5,9 +5,7 @@ export async function fetchRoverPhotos(rover: string, date: string) {
 
     const data = response.json()
 
-    const remainingRequests = response.headers.get('x-ratelimit-remaining');
-
-    console.log("Searched " + rover + " on " + date + " - Requests Remaining: " + remainingRequests);
+    //const remainingRequests = response.headers.get('x-ratelimit-remaining');
 
     return data as Promise<RoverApiResponse>;
 }
