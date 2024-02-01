@@ -15,9 +15,9 @@ export async function deleteRoverPhoto(formState: DeleteRoverPhotoFormState, for
     const cookieStore = cookies()
     const supabase = createSupabaseServerActionClient(cookieStore);
     
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { user } } = await supabase.auth.getUser();
 
-    const userId = session?.user.id;
+    const userId = user?.id;
     const imageSource = formData.get('imageSource');
 
     const { data, error } = await supabase
