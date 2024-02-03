@@ -20,82 +20,96 @@ interface RoverPhotoCardProps {
     deletable?: boolean;
 }
 
-export default function RoverPhotoCard({ roverName, cameraFullName, earthDate, sol, imageSource, saveable, deletable}: RoverPhotoCardProps) {
+export default function RoverPhotoCard({
+    roverName,
+    cameraFullName,
+    earthDate,
+    sol,
+    imageSource,
+    saveable,
+    deletable,
+}: RoverPhotoCardProps) {
     const [saveFormState, saveAction] = useFormState(actions.saveRoverPhoto, { errors: {} });
     const [deleteFormState, deleteAction] = useFormState(actions.deleteRoverPhoto, { errors: {} });
     const { toast } = useToast();
 
     useEffect(() => {
-        if (JSON.stringify(saveFormState.errors) !== "{}") {
+        if (JSON.stringify(saveFormState.errors) !== '{}') {
             toast({
-                title: "Error",
+                title: 'Error',
                 description: saveFormState.errors.message,
-                variant: "destructive"
-            })
+                variant: 'destructive',
+            });
         } else if (saveFormState.success) {
             toast({
-                title: "Success",
-                description: "The photo has been saved to your profile."
-            })
+                title: 'Success',
+                description: 'The photo has been saved to your profile.',
+            });
         }
-    }, [saveFormState.errors, saveFormState.success])
+    }, [saveFormState.errors, saveFormState.success]);
 
     useEffect(() => {
-        if (JSON.stringify(deleteFormState.errors) !== "{}") {
+        if (JSON.stringify(deleteFormState.errors) !== '{}') {
             toast({
-                title: "Error",
+                title: 'Error',
                 description: deleteFormState.errors.message,
-                variant: "destructive"
-            })
-        } 
-    }, [deleteFormState.errors])
+                variant: 'destructive',
+            });
+        }
+    }, [deleteFormState.errors]);
 
     const saveButton = (
         <form className="ml-auto">
-            <FormButton className="ml-auto" variant="ghost" action={saveAction}>Save Photo</FormButton>
+            <FormButton className="ml-auto" variant="ghost" action={saveAction}>
+                Save Photo
+            </FormButton>
             <input type="hidden" value={roverName} name="roverName" />
             <input type="hidden" value={cameraFullName} name="cameraFullName" />
             <input type="hidden" value={earthDate} name="earthDate" />
             <input type="hidden" value={sol} name="sol" />
             <input type="hidden" value={imageSource} name="imageSource" />
         </form>
-    )
+    );
 
     const deleteButton = (
         <form className="ml-auto">
-            <FormButton variant="ghost" action={deleteAction}>Delete Photo</FormButton>
+            <FormButton variant="ghost" action={deleteAction}>
+                Delete Photo
+            </FormButton>
             <input type="hidden" value={imageSource} name="imageSource" />
         </form>
-    )
+    );
 
     return (
         <Dialog>
             <div className="row-auto col-span-1 m-4 shadow">
-                <Card className="bg-transparent border-none"> 
+                <Card className="bg-transparent border-none">
                     <CardHeader>
                         <CardTitle>{roverName}</CardTitle>
                         <CardDescription>
-                        <span>{cameraFullName}</span><br />
-                        <span>{earthDate}</span><br />
-                        <span>Sol {sol}</span>
+                            <span>{cameraFullName}</span>
+                            <br />
+                            <span>{earthDate}</span>
+                            <br />
+                            <span>Sol {sol}</span>
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col space-y-4">
                         <DialogTrigger className="relative">
-                            <Image src={imageSource}/>
+                            <Image src={imageSource} />
                         </DialogTrigger>
                         <div className="flex flex-row items-center">
-                            { saveFormState.success ? <Check color="#00ff1e" /> : null }
-                            { deleteFormState.success ? <Trash2 className="animate-bounce"/> : null}
-                            { saveable ? saveButton : null }
-                            { deletable ? deleteButton : null}
+                            {saveFormState.success ? <Check color="#00ff1e" /> : null}
+                            {deleteFormState.success ? <Trash2 className="animate-bounce" /> : null}
+                            {saveable ? saveButton : null}
+                            {deletable ? deleteButton : null}
                         </div>
                     </CardContent>
                 </Card>
             </div>
             <DialogContent className="min-w-fit text-center">
-                <img className="min-w-full h-auto mt-4" src={imageSource} loading="lazy"/>
+                <img className="min-w-full h-auto mt-4" src={imageSource} loading="lazy" />
             </DialogContent>
         </Dialog>
-    )
+    );
 }

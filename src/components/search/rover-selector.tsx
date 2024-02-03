@@ -1,15 +1,20 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import { Rover } from '@/lib/types';
 
 interface RoverSelectorProps {
-    currentRover: string;
-    handleRoverChange: (selectedRover: string) => void;
+    defaultRover: string;
+    handleRoverChange: (selectedRover: Rover) => void;
 }
 
-export default function RoverSelector({ currentRover, handleRoverChange }: RoverSelectorProps) {
-
+export default function RoverSelector({ defaultRover, handleRoverChange }: RoverSelectorProps) {
     return (
-        <RadioGroup className="flex flex-row flex-wrap items-center" name="rover" defaultValue={currentRover} onValueChange={handleRoverChange} >
+        <RadioGroup
+            className="flex flex-row flex-wrap items-center"
+            name="rover"
+            defaultValue={defaultRover}
+            onValueChange={handleRoverChange}
+        >
             <div className="flex items-center space-x-2">
                 <RadioGroupItem value="perseverance" id="perseverance" />
                 <Label htmlFor="perseverance">Perseverance</Label>
@@ -27,5 +32,5 @@ export default function RoverSelector({ currentRover, handleRoverChange }: Rover
                 <Label htmlFor="spirit">Spirit</Label>
             </div>
         </RadioGroup>
-    )
+    );
 }

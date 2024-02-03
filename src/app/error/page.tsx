@@ -4,5 +4,5 @@ export default function ErrorPage() {
             <h1 className="text-2xl font-bold">Something went wrong.</h1>
             <p className="mt-8">Try returning to the homepage.</p>
         </div>
-    )
+    );
 }

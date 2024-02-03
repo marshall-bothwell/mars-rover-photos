@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { createSupabaseBrowserClient } from "@/supabase/create-supabase-browser-client";
+import { createSupabaseBrowserClient } from '@/supabase/create-supabase-browser-client';
 import FormButton from '@/components/common/form-button';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PopoverClose } from '@radix-ui/react-popover';
 import { User as UserIcon } from 'lucide-react';
-import type { User, UserMetadata } from "@supabase/supabase-js";
+import type { User, UserMetadata } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import SignInForm from '@/components/header/sign-in-form';
 import Link from 'next/link';
@@ -21,12 +21,14 @@ export default function HeaderAuth() {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+            const {
+                data: { session },
+            } = await supabase.auth.getSession();
             setMetadata(session?.user.user_metadata || null);
             setUser(session?.user || null);
-        }
+        };
         fetchUser();
-    }, [])
+    }, []);
 
     let authDisplay: JSX.Element;
 
@@ -37,35 +39,33 @@ export default function HeaderAuth() {
                     <PopoverTrigger>
                         <Avatar>
                             <AvatarImage src={metadata?.avatar_url} />
-                            <AvatarFallback><UserIcon /></AvatarFallback>
+                            <AvatarFallback>
+                                <UserIcon />
+                            </AvatarFallback>
                         </Avatar>
                     </PopoverTrigger>
                     <PopoverContent align="end" className="bg-transparent border-none">
                         <div className="flex flex-col space-y-2">
                             <div>
-                            <PopoverClose asChild>
-                                <Button asChild variant="outline">
-                                    <Link href={`/photos/${user.id}`}>Saved Photos</Link>
-                                </Button>
-                            </PopoverClose>
+                                <PopoverClose asChild>
+                                    <Button asChild variant="outline">
+                                        <Link href={`/photos/${user.id}`}>Saved Photos</Link>
+                                    </Button>
+                                </PopoverClose>
                             </div>
                             <form>
-                                <FormButton variant="outline" action={actions.signOut}>Sign Out</FormButton>
+                                <FormButton variant="outline" action={actions.signOut}>
+                                    Sign Out
+                                </FormButton>
                             </form>
                         </div>
                     </PopoverContent>
                 </Popover>
             </div>
-        )
+        );
     } else {
-        authDisplay = (
-            <SignInForm />
-        )
+        authDisplay = <SignInForm />;
     }
 
-    return (
-        <div>
-            {authDisplay}
-        </div>
-    )
+    return <div>{authDisplay}</div>;
 }

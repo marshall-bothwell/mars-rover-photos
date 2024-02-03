@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -8,69 +8,61 @@ import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Manifest } from '@/lib/types';
-import { handleDisabledDays } from '@/lib/utils/handle-disabled-days';
-
-import * as actions from '@/actions';
+import { ManifestDates, ManifestDatesCollection, Rover } from '@/lib/types';
 
 interface DateSelectorProps {
-    selectedRover: string;
+    selectedRover: Rover;
+    manifestDates: ManifestDatesCollection;
 }
 
-export default function DateSelector({ selectedRover }: DateSelectorProps) {
+export default function DateSelector({ selectedRover, manifestDates: collection }: DateSelectorProps) {
     const [date, setDate] = useState<Date>();
-    const [manifest, setManifest] = useState<Manifest>();
+    const [manifestDates, setManifestDates] = useState<ManifestDates>();
     const searchParams = useSearchParams();
 
     useEffect(() => {
         const searchedDate = searchParams.get('date');
 
         if (searchedDate) {
-            setDate(new Date(searchedDate+'T12:00:00'))
+            setDate(new Date(searchedDate + 'T12:00:00'));
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
-        const updateManifest = async () => {
-            const { photo_manifest } = await actions.getManifest(selectedRover)
-            setManifest(photo_manifest);
-        }
+        setManifestDates(collection[selectedRover]);
+    }, [selectedRover]);
 
-        updateManifest();
-    }, [selectedRover])
+    let formattedDate = '';
+    let defaultMonth = manifestDates?.maxDate;
 
-    const { disabledDays, landingDate, maxDate } = handleDisabledDays(manifest)
-
-    let formattedDate = "";
-    let defaultMonth = maxDate
-
-    if (date) {
+    if (date && manifestDates) {
         formattedDate = format(date, 'y-MM-dd');
-        if (date >= landingDate && date <= maxDate) {
+        if (date >= manifestDates.landingDate && date <= manifestDates.maxDate) {
             defaultMonth = date;
         }
     }
 
     return (
         <div className="flex flex-row items-center space-x-4">
-            <input name="date" value={formattedDate} type="hidden"/>
+            <input name="date" value={formattedDate} type="hidden" />
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant={"outline"}>
+                    <Button variant={'outline'}>
                         <CalendarIcon />
-                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                        {date ? format(date, 'PPP') : <span>Pick a date</span>}
                     </Button>
                 </PopoverTrigger>
+
                 <PopoverContent className="w-auto">
                     <Calendar
                         mode="single"
                         selected={date}
                         onSelect={setDate}
-                        disabled={disabledDays}
+                        disabled={manifestDates?.disabledDays}
                         defaultMonth={defaultMonth}
-                        fromDate={landingDate}
-                        toDate={maxDate}
-                        initialFocus 
+                        fromDate={manifestDates?.landingDate}
+                        toDate={manifestDates?.maxDate}
+                        initialFocus
                     />
                 </PopoverContent>
             </Popover>
@@ -78,5 +70,5 @@ export default function DateSelector({ selectedRover }: DateSelectorProps) {
                 <Link href={`/search?rover=${selectedRover}&date=${formattedDate}&camera=all`}>Search</Link>
             </Button>
         </div>
-    )
+    );
 }

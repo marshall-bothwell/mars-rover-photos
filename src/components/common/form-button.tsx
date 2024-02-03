@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
@@ -7,8 +7,8 @@ import { LoaderIcon } from 'lucide-react';
 interface FormButtonProps {
     children: React.ReactNode;
     className?: string;
-    variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | null | undefined;
-    size?: "default" | "sm" | "lg" | "icon" | null | undefined;
+    variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | null | undefined;
+    size?: 'default' | 'sm' | 'lg' | 'icon' | null | undefined;
     action?: (payload: FormData) => void;
 }
 
@@ -20,8 +20,8 @@ export default function FormButton({ children, className, variant, size, action 
     }
     return (
         <Button type="submit" className={className} variant={variant} size={size} formAction={action}>
-            { isPending ? <LoaderIcon className="animate-spin"/> : null }
+            {isPending ? <LoaderIcon className="animate-spin" /> : null}
             {children}
         </Button>
-    )
+    );
 }
