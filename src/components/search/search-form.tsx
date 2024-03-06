@@ -2,6 +2,7 @@
 
 import RoverSelector from '@/components/search/rover-selector';
 import DateSelector from '@/components/search/date-selector';
+import RandomDateButton from '@/components/search/random-date-button';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { ManifestDatesCollection, Rover } from '@/lib/types';
@@ -28,6 +29,7 @@ export default function SearchForm({ manifestDates }: SearchFormProps) {
             <div className="flex flex-col items-center space-y-8">
                 <RoverSelector defaultRover={defaultRover} handleRoverChange={handleRoverChange} />
                 <DateSelector selectedRover={selectedRover} manifestDates={manifestDates} />
+                <RandomDateButton rover={selectedRover} manifestDates={manifestDates} />
             </div>
         </div>
     );

@@ -26,7 +26,7 @@ export default function DateSelector({ selectedRover, manifestDates: collection 
         if (searchedDate) {
             setDate(new Date(searchedDate + 'T12:00:00'));
         }
-    }, []);
+    }, [searchParams]);
 
     useEffect(() => {
         setManifestDates(collection[selectedRover]);

@@ -6,6 +6,7 @@ export async function fetchManifestDates(rover: string | null) {
     const { photo_manifest: manifest } = await data;
 
     let disabledDays: ({from: Date, to: Date} | Date)[] = [];
+    let enabledDates: string[] = [];
     let landingDate = new Date();
     let maxDate = new Date();
     
@@ -17,12 +18,13 @@ export async function fetchManifestDates(rover: string | null) {
         for ( let iter = new Date(manifest.landing_date+'T12:00:00'); iter < new Date(manifest.max_date); iter.setDate(iter.getDate() + 1) ) {
             if (iter.toISOString().split('T')[0] === manifest.photos[manifestIter].earth_date) {
                 manifestIter += 1;
+                enabledDates.unshift(manifest.photos[manifestIter].earth_date);
             } else {
                 disabledDays.unshift(new Date(iter));
             }
         }
     }
-    return { disabledDays, landingDate, maxDate };
+    return { disabledDays, landingDate, maxDate, enabledDates };
 
     
 }

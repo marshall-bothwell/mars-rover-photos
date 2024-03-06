@@ -67,7 +67,8 @@ export type ManifestDates = {
         }
     )[],
     landingDate: Date,
-    maxDate: Date
+    maxDate: Date,
+    enabledDates: string[]
 }
 
 export type ManifestDatesCollection = {
