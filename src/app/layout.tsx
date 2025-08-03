@@ -28,10 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Header />
                     <NextTopLoader showSpinner={false} />
                     <div className="select-none">{children}</div>
+                    <Analytics />
                     <Toaster />
                     <SpaceBackground starCount={8000} />
                 </ThemeProvider>
-                <Analytics />
             </body>
         </html>
     );
