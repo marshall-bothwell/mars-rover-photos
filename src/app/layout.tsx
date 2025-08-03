@@ -5,7 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header/header';
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/next';
 
 
 import SpaceBackground from '@/components/common/space-background';
