@@ -1,7 +1,3 @@
-# Important Note:
-
-As of mid-October 2024, this site no longer functions because NASA's Mars Rover Photos API's manifests endpoint does not return data anymore. I may modify the site to work without the manifest data at some point, but in the meantime I am hoping that the manifests endpoint may work again in the future.
-
 # Search Photos
 
 - Select a rover and a date to view all photos taken by the rover on the date
