@@ -23,14 +23,6 @@ export default function RoverSelector({ defaultRover, handleRoverChange }: Rover
                 <RadioGroupItem value="curiosity" id="curiosity" />
                 <Label htmlFor="curiosity">Curiosity</Label>
             </div>
-            <div className="flex items-center space-x-2">
-                <RadioGroupItem value="opportunity" id="opportunity" />
-                <Label htmlFor="opportunity">Opportunity</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-                <RadioGroupItem value="spirit" id="spirit" />
-                <Label htmlFor="spirit">Spirit</Label>
-            </div>
         </RadioGroup>
     );
 }

@@ -74,8 +74,6 @@ export type ManifestDates = {
 export type ManifestDatesCollection = {
     perseverance: ManifestDates,
     curiosity: ManifestDates,
-    opportunity: ManifestDates,
-    spirit: ManifestDates
 }
 
-export type Rover = 'perseverance' | 'curiosity' | 'opportunity' | 'spirit'
+export type Rover = 'perseverance' | 'curiosity'

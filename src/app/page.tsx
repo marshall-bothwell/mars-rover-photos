@@ -10,17 +10,13 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
     const perseveranceData = fetchManifestDates('perseverance');
     const curiosityData = fetchManifestDates('curiosity');
-    const opportunityData = fetchManifestDates('opportunity');
-    const spiritData = fetchManifestDates('spirit');
 
-    const [perseverance, curiosity, opportunity, spirit] = await Promise.all([
+    const [perseverance, curiosity] = await Promise.all([
         perseveranceData,
         curiosityData,
-        opportunityData,
-        spiritData,
     ]);
 
-    const manifestDates = { perseverance, curiosity, opportunity, spirit } as ManifestDatesCollection;
+    const manifestDates = { perseverance, curiosity } as ManifestDatesCollection;
 
     return (
         <div className="flex flex-col items-center text-center">
