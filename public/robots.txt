@@ -1,0 +1,9 @@
+User-agent: *
+
+Allow: /
+
+Disallow: /auth/
+Disallow: /error
+Disallow: /_not-found
+
+Sitemap: https://marsroverphotos.app/sitemap.xml
