@@ -1,20 +1,30 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
-// Server components do not have access to set or delete cookies.
-export function createSupabaseServerClient(cookieStore: ReturnType<typeof cookies>) {
+
+export async function createSupabaseServerClient() {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
         throw new Error("Can't find Supabase credentials in environment variables.");
     }
+
+    const cookieStore = await cookies();
+
     return createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL, 
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
         {
             cookies: {
-                get(name) {
-                    return cookieStore.get(name)?.value;
-                }
-            }
+                getAll() {
+                    return cookieStore.getAll();
+                },
+                setAll(cookiesToSet) {
+                    try {
+                        cookiesToSet.forEach(({ name, value, options }) =>
+                            cookieStore.set(name, value, options)
+                        );
+                    } catch {}
+                },
+            },
         }
-    )
+    );
 }

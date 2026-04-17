@@ -15,14 +15,14 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import FormButton from '@/components/common/form-button';
 import { AiFillGithub } from 'react-icons/ai';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import * as actions from '@/actions';
 
 export default function SignInForm() {
-    const [signUpState, signUpAction] = useFormState(actions.signUp, {
+    const [signUpState, signUpAction] = useActionState(actions.signUp, {
         errors: {},
     });
-    const [signInState, signInAction] = useFormState(actions.signIn, {
+    const [signInState, signInAction] = useActionState(actions.signIn, {
         errors: {},
     });
 
