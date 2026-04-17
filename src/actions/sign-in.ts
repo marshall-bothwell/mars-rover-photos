@@ -53,5 +53,5 @@ export async function signIn(formState: SignInFormState, formData: FormData): Pr
         }
     }
 
-    redirect(fullUrl || '/', 'replace' as RedirectType);
+    redirect(fullUrl || '/', 'replace');
 }

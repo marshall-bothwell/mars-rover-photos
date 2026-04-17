@@ -11,5 +11,5 @@ export async function signOut() {
 
     await supabase.auth.signOut();
 
-    redirect(fullUrl || '/', 'replace' as RedirectType);
+    redirect(fullUrl || '/', 'replace');
 }
