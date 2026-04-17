@@ -60,9 +60,11 @@ export default function DateSelector({ selectedRover, manifestDates: collection 
                         onSelect={setDate}
                         disabled={manifestDates?.disabledDays}
                         defaultMonth={defaultMonth}
-                        fromDate={manifestDates?.landingDate}
-                        toDate={manifestDates?.maxDate}
-                        initialFocus
+                        hidden={[
+                            { before: manifestDates?.landingDate as Date },
+                            { after: manifestDates?.maxDate as Date },
+                        ]}
+                        autoFocus
                     />
                 </PopoverContent>
             </Popover>
