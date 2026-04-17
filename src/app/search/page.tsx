@@ -2,6 +2,7 @@ import SearchForm from '@/components/search/search-form';
 import RoverPhotoList from '@/components/search/rover-photo-list';
 import { fetchRoverPhotos } from '@/lib/utils/fetch-rover-photos';
 import { fetchManifestDates } from '@/lib/utils/fetch-manifest-dates';
+import { Suspense } from 'react';
 import * as actions from '@/actions';
 
 import { RoverApiResponse, Manifest, ManifestDatesCollection } from '@/lib/types';
@@ -40,8 +41,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
     return (
         <div>
-            <SearchForm manifestDates={manifestDates} />
-            {roverPhotos && manifest ? <RoverPhotoList roverPhotos={roverPhotos} manifest={manifest} /> : null}
+            <Suspense fallback={<div>Loading...</div>}>
+                <SearchForm manifestDates={manifestDates} />
+                {roverPhotos && manifest ? <RoverPhotoList roverPhotos={roverPhotos} manifest={manifest} /> : null}
+            </Suspense>
         </div>
     );
 }
