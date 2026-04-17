@@ -1,7 +1,7 @@
 "use server";
 
 import { headers } from 'next/headers';
-import { redirect, RedirectType } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
 import { z } from 'zod';
 
