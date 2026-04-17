@@ -2,12 +2,11 @@
 
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
 import { redirect } from 'next/navigation';
-import { headers, cookies } from 'next/headers';
+import { headers } from 'next/headers';
 
 export async function signInWithGithub() {
-    const cookieStore = cookies()
-    const supabase = createSupabaseServerActionClient(cookieStore);
-    const headersList = headers()
+    const supabase = await createSupabaseServerActionClient();
+    const headersList = await headers()
 
     const fullUrlString = headersList.get('referer');
     const fullUrl = new URL(fullUrlString ?? "");

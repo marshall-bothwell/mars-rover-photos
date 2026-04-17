@@ -1,7 +1,6 @@
 "use server";
 
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
-import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
 interface SaveRoverPhotoFormState {
@@ -12,8 +11,7 @@ interface SaveRoverPhotoFormState {
 }
 
 export async function saveRoverPhoto(formState: SaveRoverPhotoFormState, formData: FormData): Promise<SaveRoverPhotoFormState> {
-    const cookieStore = cookies();
-    const supabase = createSupabaseServerActionClient(cookieStore);
+    const supabase = await createSupabaseServerActionClient();
     const { data: { user } } = await supabase.auth.getUser();
     const userId = user?.id;
 

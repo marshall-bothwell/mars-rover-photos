@@ -1,6 +1,5 @@
 'use server';
 
-import { cookies } from 'next/headers';
 import { createSupabaseServerActionClient } from '@/supabase/create-supabase-server-action-client';
 import { z } from 'zod';
 
@@ -25,8 +24,7 @@ interface SignUpFormState {
 }
 
 export async function signUp(formState: SignUpFormState, formData: FormData): Promise<SignUpFormState> {
-    const cookieStore = cookies();
-    const supabase = createSupabaseServerActionClient(cookieStore);
+    const supabase = await createSupabaseServerActionClient();
 
     const result = signUpSchema.safeParse({
         email: formData.get("email"),

@@ -3,7 +3,6 @@ import RoverPhotoCard from '@/components/common/rover-photo-card';
 import InfiniteScrollPhotos from '@/components/common/infinite-scroll-photos';
 import CopyUrlButton from '@/components/common/copy-url-button';
 import { SavedPhoto } from '@/lib/types';
-import { cookies } from 'next/headers';
 
 interface SavedPhotosPageProps {
     params: {
@@ -16,8 +15,7 @@ export const revalidate = 0;
 
 export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) {
     const { userslug } = params;
-    const cookieStore = cookies();
-    const supabase = createSupabaseServerClient(cookieStore);
+    const supabase = await createSupabaseServerClient();
     const {
         data: { user },
     } = await supabase.auth.getUser();
