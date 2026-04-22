@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { ManifestDatesCollection, Rover } from '@/lib/types';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 interface RandomDateButtonProps {
     manifestDates: ManifestDatesCollection;
@@ -12,15 +13,24 @@ interface RandomDateButtonProps {
 export default function RandomDateButton({ manifestDates, rover }: RandomDateButtonProps) {
     const roverDates = manifestDates[rover];
     const length = roverDates.enabledDates.length;
-    const randomizedIndex = Math.floor(Math.random() * length);
+    const [randomDate, setRandomDate] = useState<string | null>(null);
 
-    const handleClick = () => {
-        console.log(roverDates.enabledDates[randomizedIndex]);
-    };
+    useEffect(() => {
+        const randomizedIndex = Math.floor(Math.random() * length);
+        setRandomDate(roverDates.enabledDates[randomizedIndex])
+    }, [roverDates.enabledDates])
+
+    if (!randomDate) {
+        return (
+            <Button variant="outline" disabled>
+                Search Random Date
+            </Button>
+        )
+    }
 
     return (
         <Button variant="outline" asChild>
-            <Link href={`/search?rover=${rover}&date=${roverDates.enabledDates[randomizedIndex]}&camera=all`}>
+            <Link href={`/search?rover=${rover}&date=${randomDate}&camera=all`}>
                 Search Random Date
             </Link>
         </Button>

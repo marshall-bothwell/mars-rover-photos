@@ -6,6 +6,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header/header';
 import { Analytics } from '@vercel/analytics/next';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 
 import SpaceBackground from '@/components/common/space-background';
@@ -24,14 +25,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
             <body className={inter.className}>
-                <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-                    <Header />
-                    <NextTopLoader showSpinner={false} />
-                    <div className="select-none">{children}</div>
-                    <Analytics />
-                    <Toaster />
-                    <SpaceBackground starCount={8000} />
-                </ThemeProvider>
+                <NuqsAdapter>
+                    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+                        <Header />
+                        <NextTopLoader showSpinner={false} />
+                        <div className="select-none">{children}</div>
+                        <Analytics />
+                        <Toaster />
+                        <SpaceBackground starCount={8000} />
+                    </ThemeProvider>
+                </NuqsAdapter>
             </body>
         </html>
     );

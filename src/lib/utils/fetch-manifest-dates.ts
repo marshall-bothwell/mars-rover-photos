@@ -21,7 +21,7 @@ export async function fetchManifestDates(rover: string | null) {
 
     try {
         const response = await fetch(
-            `https://api.nasa.gov/mars-photos/api/v1/manifests/${encodeURIComponent(rover)}?api_key=${process.env.NASA_API_KEY}`,
+            `https://mars-photos-api.fly.dev/manifests/${encodeURIComponent(rover)}`,
             { next: { revalidate: 3600 } }
         );
 

@@ -8,14 +8,14 @@ import * as actions from '@/actions';
 import { RoverApiResponse, Manifest, ManifestDatesCollection } from '@/lib/types';
 
 interface SearchPageProps {
-    searchParams: {
+    searchParams: Promise<{
         rover: string;
         date: string;
-    };
+    }>;
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-    const { rover, date } = searchParams;
+    const { rover, date } = await searchParams;
     let roverPhotos: RoverApiResponse | undefined;
     let manifest: Manifest | undefined;
 

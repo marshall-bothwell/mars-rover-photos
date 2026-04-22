@@ -6,7 +6,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Check, Trash2 } from 'lucide-react';
 import Image from '@/components/common/image';
 import FormButton from '@/components/common/form-button';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { useEffect } from 'react';
 import * as actions from '@/actions';
 
@@ -29,8 +29,8 @@ export default function RoverPhotoCard({
     saveable,
     deletable,
 }: RoverPhotoCardProps) {
-    const [saveFormState, saveAction] = useFormState(actions.saveRoverPhoto, { errors: {} });
-    const [deleteFormState, deleteAction] = useFormState(actions.deleteRoverPhoto, { errors: {} });
+    const [saveFormState, saveAction] = useActionState(actions.saveRoverPhoto, { errors: {} });
+    const [deleteFormState, deleteAction] = useActionState(actions.deleteRoverPhoto, { errors: {} });
     const { toast } = useToast();
 
     useEffect(() => {
