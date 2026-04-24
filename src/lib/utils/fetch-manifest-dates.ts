@@ -12,11 +12,6 @@ export async function fetchManifestDates(rover: string | null) {
         return fallback;
     }
 
-    if (!process.env.NASA_API_KEY) {
-        console.error('NASA_API_KEY is not set');
-        return fallback;
-    }
-
     let manifest: ManifestApiResponse['photo_manifest'] | undefined;
 
     try {
@@ -26,13 +21,13 @@ export async function fetchManifestDates(rover: string | null) {
         );
 
         if (!response.ok) {
-            console.error(`NASA API returned ${response.status} for rover "${rover}"`);
+            console.error(`API returned ${response.status} for rover "${rover}"`);
             return fallback;
         }
 
         const contentType = response.headers.get('content-type') ?? '';
         if (!contentType.includes('application/json')) {
-            console.error(`NASA API returned non-JSON content-type: ${contentType}`);
+            console.error(`API returned non-JSON content-type: ${contentType}`);
             return fallback;
         }
 

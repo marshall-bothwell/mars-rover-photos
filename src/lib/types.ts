@@ -48,32 +48,25 @@ export type ManifestApiResponse = {
 }
 
 export type SavedPhoto = {
-    id: string,
-    created_at: string,
-    user_id: string,
-    rover_name: string,
-    camera_full_name: string,
-    earth_date: string,
-    sol: string,
-    image_source: string
+    id: string;
+    created_at: string;
+    user_id: string;
+    rover_name: string;
+    camera_full_name: string;
+    earth_date: string;
+    sol: string;
+    image_source: string;
 }
 
 export type ManifestDates = {
-    disabledDays: ( 
-        Date | 
-        {
-            from: Date;
-            to: Date;
-        }
-    )[],
-    landingDate: Date,
-    maxDate: Date,
-    enabledDates: string[]
-}
+    landingDate: Date;
+    maxDate: Date;
+    enabledDates: string[];
+};
 
 export type ManifestDatesCollection = {
-    perseverance: ManifestDates,
-    curiosity: ManifestDates,
-}
+    perseverance: ManifestDates;
+    curiosity: ManifestDates;
+};
 
 export type Rover = 'perseverance' | 'curiosity'
