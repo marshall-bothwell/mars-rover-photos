@@ -1,16 +1,20 @@
+import { unstable_cache } from 'next/cache';
 import { ManifestApiResponse } from '@/lib/types';
 
-export async function fetchManifestDates(rover: string | null) {
-    const fallback = {
-        disabledDays: [] as ({ from: Date; to: Date } | Date)[],
-        enabledDates: [] as string[],
-        landingDate: new Date(),
-        maxDate: new Date(),
-    };
+export interface ManifestDates {
+    enabledDates: string[];
+    landingDate: Date;
+    maxDate: Date;
+}
 
-    if (!rover) {
-        return fallback;
-    }
+const fallback: ManifestDates = {
+    enabledDates: [],
+    landingDate: new Date(),
+    maxDate: new Date(),
+};
+
+async function fetchManifestDatesUncached(rover: string | null): Promise<ManifestDates> {
+    if (!rover) return fallback;
 
     let manifest: ManifestApiResponse['photo_manifest'] | undefined;
 
@@ -25,12 +29,6 @@ export async function fetchManifestDates(rover: string | null) {
             return fallback;
         }
 
-        const contentType = response.headers.get('content-type') ?? '';
-        if (!contentType.includes('application/json')) {
-            console.error(`API returned non-JSON content-type: ${contentType}`);
-            return fallback;
-        }
-
         const data = (await response.json()) as ManifestApiResponse;
         manifest = data.photo_manifest;
     } catch (err) {
@@ -38,36 +36,19 @@ export async function fetchManifestDates(rover: string | null) {
         return fallback;
     }
 
-    if (!manifest) {
-        return fallback;
-    }
+    if (!manifest) return fallback;
 
-    const disabledDays: ({ from: Date; to: Date } | Date)[] = [];
-    const enabledDates: string[] = [];
-    const landingDate = new Date(manifest.landing_date + 'T12:00:00');
-    const maxDate = new Date(manifest.max_date + 'T12:00:00');
-    const endDate = new Date(manifest.max_date);
+    const enabledDates = Array.from(new Set(manifest.photos.map((p) => p.earth_date)));
 
-    let manifestIter = 0;
-
-    for (
-        const iter = new Date(manifest.landing_date + 'T12:00:00');
-        iter < endDate;
-        iter.setDate(iter.getDate() + 1)
-    ) {
-        const currentPhoto = manifest.photos[manifestIter];
-        if (!currentPhoto) {
-            disabledDays.unshift(new Date(iter));
-            continue;
-        }
-
-        if (iter.toISOString().split('T')[0] === currentPhoto.earth_date) {
-            enabledDates.unshift(currentPhoto.earth_date);
-            manifestIter += 1;
-        } else {
-            disabledDays.unshift(new Date(iter));
-        }
-    }
-
-    return { disabledDays, landingDate, maxDate, enabledDates };
+    return {
+        enabledDates,
+        landingDate: new Date(manifest.landing_date + 'T12:00:00'),
+        maxDate: new Date(manifest.max_date + 'T12:00:00'),
+    };
 }
+
+export const fetchManifestDates = unstable_cache(
+    fetchManifestDatesUncached,
+    ['manifest-dates'],
+    { revalidate: 3600, tags: ['manifest'] }
+);
