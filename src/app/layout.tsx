@@ -9,8 +9,6 @@ import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 
-import SpaceBackground from '@/components/common/space-background';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -32,7 +30,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <div className="select-none">{children}</div>
                         <Analytics />
                         <Toaster />
-                        <SpaceBackground starCount={8000} />
                     </ThemeProvider>
                 </NuqsAdapter>
             </body>
