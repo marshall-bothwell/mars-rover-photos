@@ -2,7 +2,7 @@
 
 import RoverSelector from '@/components/search/rover-selector';
 import DateSelector from '@/components/search/date-selector';
-import RandomDateButton from '@/components/search/random-date-button';
+import { Card, CardContent } from '@/components/ui/card';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { ManifestDatesCollection, Rover } from '@/lib/types';
@@ -10,10 +10,6 @@ import { ManifestDatesCollection, Rover } from '@/lib/types';
 interface SearchFormProps {
     manifestDates: ManifestDatesCollection;
 }
-
-//TODO:
-//Look at moving DateSelector into SearchForm to eliminate some state
-//Stutter when opening the dateSelector, likely due to radix calendar taking time to load with lots of disabled dates
 
 export default function SearchForm({ manifestDates }: SearchFormProps) {
     const searchParams = useSearchParams();
@@ -25,12 +21,22 @@ export default function SearchForm({ manifestDates }: SearchFormProps) {
     };
 
     return (
-        <div className="m-8">
-            <div className="flex flex-col items-center space-y-8">
-                <RoverSelector defaultRover={defaultRover} handleRoverChange={handleRoverChange} />
-                <DateSelector selectedRover={selectedRover} manifestDates={manifestDates} />
-                <RandomDateButton rover={selectedRover} manifestDates={manifestDates} />
-            </div>
-        </div>
+        <Card className="mx-auto mt-8 w-full max-w-lg">
+            <CardContent className="pt-6">
+                <div className="flex flex-col space-y-6 text-center">
+
+                    <div className="flex flex-col space-y-2 w-full">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Rover</p>
+                        <RoverSelector selectedRover={selectedRover} handleRoverChange={handleRoverChange} />
+                    </div>
+
+                    <div className="flex flex-col space-y-2 w-full">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Date</p>
+                        <DateSelector selectedRover={selectedRover} manifestDates={manifestDates} />
+                    </div>
+
+                </div>
+            </CardContent>
+        </Card>
     );
 }

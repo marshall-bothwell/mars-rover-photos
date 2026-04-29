@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, Shuffle } from 'lucide-react';
 import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -16,8 +16,12 @@ interface DateSelectorProps {
 }
 
 export default function DateSelector({ selectedRover, manifestDates: collection }: DateSelectorProps) {
-    const [date, setDate] = useState<Date>();
+    const { enabledDates } = collection[selectedRover];
+    const landingDate = new Date(collection[selectedRover].landingDate);
+    const maxDate = new Date(collection[selectedRover].maxDate);
+    const [date, setDate] = useState<Date>(maxDate);
     const searchParams = useSearchParams();
+    const isMounted = useRef(false);
 
     useEffect(() => {
         const searchedDate = searchParams.get('date');
@@ -26,7 +30,15 @@ export default function DateSelector({ selectedRover, manifestDates: collection 
         }
     }, [searchParams]);
 
-    const { enabledDates, landingDate, maxDate } = collection[selectedRover];
+    // isMounted ref starts as false, so the selected date is not reset on searches
+    // from the home page, only when changing the rover
+    useEffect(() => {
+        if (!isMounted.current) {
+            isMounted.current = true;
+            return;
+        }
+        setDate(new Date(collection[selectedRover].maxDate));
+    }, [selectedRover]);
 
     const enabledSet = useMemo(() => new Set(enabledDates), [enabledDates]);
 
@@ -40,31 +52,42 @@ export default function DateSelector({ selectedRover, manifestDates: collection 
         [enabledSet]
     );
 
-    const formattedDate = date ? format(date, 'y-MM-dd') : '';
-    const defaultMonth =
-        date && date >= landingDate && date <= maxDate ? date : maxDate;
+    const handleRandomDate = () => {
+        const randomIndex = Math.floor(Math.random() * enabledDates.length);
+        setDate(new Date(enabledDates[randomIndex] + 'T12:00:00'));
+    };
+
+    const formattedDate = format(date, 'y-MM-dd');
 
     return (
-        <div className="flex flex-row items-center space-x-4">
+        <div className="flex flex-col items-center w-full gap-2">
             <input name="date" value={formattedDate} type="hidden" />
             <Popover>
                 <PopoverTrigger asChild>
                     <Button variant={'outline'}>
                         <CalendarIcon />
-                        {date ? format(date, 'PPP') : <span>Pick a date</span>}
+                        {format(date, 'PPP')}
                     </Button>
                 </PopoverTrigger>
 
                 <PopoverContent className="w-auto">
                     <Calendar
+                        key={formattedDate}
                         mode="single"
                         selected={date}
-                        onSelect={setDate}
+                        onSelect={(d) => { if (d) setDate(d); }}
                         disabled={disabled}
-                        defaultMonth={defaultMonth}
+                        defaultMonth={date}
+                        startMonth={landingDate}
+                        endMonth={maxDate}
                         hidden={[{ before: landingDate }, { after: maxDate }]}
-                        autoFocus
                     />
+                    <div className="border-t border-border p-2">
+                        <Button variant="ghost" size="sm" className="w-full" onClick={handleRandomDate}>
+                            <Shuffle />
+                            Random Date
+                        </Button>
+                    </div>
                 </PopoverContent>
             </Popover>
             <Button variant="outline" asChild>

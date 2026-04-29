@@ -1,28 +1,24 @@
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { Rover } from '@/lib/types';
 
 interface RoverSelectorProps {
-    defaultRover: string;
+    selectedRover: Rover;
     handleRoverChange: (selectedRover: Rover) => void;
 }
 
-export default function RoverSelector({ defaultRover, handleRoverChange }: RoverSelectorProps) {
+export default function RoverSelector({ selectedRover, handleRoverChange }: RoverSelectorProps) {
     return (
-        <RadioGroup
-            className="flex flex-row flex-wrap items-center"
-            name="rover"
-            defaultValue={defaultRover}
-            onValueChange={handleRoverChange}
-        >
-            <div className="flex items-center space-x-2">
-                <RadioGroupItem value="perseverance" id="perseverance" />
-                <Label htmlFor="perseverance">Perseverance</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-                <RadioGroupItem value="curiosity" id="curiosity" />
-                <Label htmlFor="curiosity">Curiosity</Label>
-            </div>
-        </RadioGroup>
+        <div className="flex flex-row gap-2 justify-center">
+            {(['perseverance', 'curiosity'] as Rover[]).map((rover) => (
+                <Button
+                    key={rover}
+                    variant={selectedRover === rover ? 'secondary' : 'outline'}
+                    onClick={() => handleRoverChange(rover)}
+                    className="capitalize"
+                >
+                    {rover}
+                </Button>
+            ))}
+        </div>
     );
 }
