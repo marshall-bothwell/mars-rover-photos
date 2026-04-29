@@ -2,16 +2,18 @@
 
 import RoverSelector from '@/components/search/rover-selector';
 import DateSelector from '@/components/search/date-selector';
+import CameraSelector from '@/components/search/camera-selector';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { ManifestDatesCollection, Rover } from '@/lib/types';
+import { ManifestDatesCollection, Manifest, Rover } from '@/lib/types';
 
 interface SearchFormProps {
     manifestDates: ManifestDatesCollection;
+    manifest?: Manifest;
 }
 
-export default function SearchForm({ manifestDates }: SearchFormProps) {
+export default function SearchForm({ manifestDates, manifest }: SearchFormProps) {
     const searchParams = useSearchParams();
     const defaultRover = (searchParams.get('rover') as Rover) || 'perseverance';
     const [selectedRover, setSelectedRover] = useState<Rover>(defaultRover);
@@ -34,6 +36,13 @@ export default function SearchForm({ manifestDates }: SearchFormProps) {
                         <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Date</p>
                         <DateSelector selectedRover={selectedRover} manifestDates={manifestDates} />
                     </div>
+
+                    {manifest && (
+                        <div className="flex flex-col space-y-2 w-full">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Camera</p>
+                            <CameraSelector manifest={manifest} />
+                        </div>
+                    )}
 
                 </div>
             </CardContent>

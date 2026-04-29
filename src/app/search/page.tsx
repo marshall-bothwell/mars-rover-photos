@@ -42,8 +42,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     return (
         <div>
             <Suspense fallback={<div>Loading...</div>}>
-                <SearchForm manifestDates={manifestDates} />
-                {roverPhotos && manifest ? <RoverPhotoList roverPhotos={roverPhotos} manifest={manifest} /> : null}
+                <SearchForm manifestDates={manifestDates} manifest={manifest} />
+                {roverPhotos ? <RoverPhotoList roverPhotos={roverPhotos} /> : null}
             </Suspense>
         </div>
     );

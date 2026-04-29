@@ -1,9 +1,8 @@
 'use client';
 
-import CameraSelector from '@/components/search/camera-selector';
 import RoverPhotoCard from '@/components/common/rover-photo-card';
 import InfiniteScrollPhotos from '@/components/common/infinite-scroll-photos';
-import type { RoverApiResponse, Manifest } from '@/lib/types';
+import type { RoverApiResponse } from '@/lib/types';
 import { createSupabaseBrowserClient } from '@/supabase/create-supabase-browser-client';
 import type { Session } from '@supabase/supabase-js';
 import { useQueryState } from 'nuqs';
@@ -11,10 +10,9 @@ import { useState, useEffect } from 'react';
 
 interface RoverPhotoListProps {
     roverPhotos: RoverApiResponse;
-    manifest: Manifest;
 }
 
-export default function RoverPhotoList({ roverPhotos, manifest }: RoverPhotoListProps) {
+export default function RoverPhotoList({ roverPhotos }: RoverPhotoListProps) {
     const [session, setSession] = useState<Session | null>(null);
     const supabase = createSupabaseBrowserClient();
     const [camera] = useQueryState('camera');
@@ -53,7 +51,6 @@ export default function RoverPhotoList({ roverPhotos, manifest }: RoverPhotoList
 
     return (
         <div className="flex flex-col items-center">
-            <CameraSelector manifest={manifest} />
             <InfiniteScrollPhotos roverPhotos={renderedRoverPhotos} pageSize={12} />
         </div>
     );
