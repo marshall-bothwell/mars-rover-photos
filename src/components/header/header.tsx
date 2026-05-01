@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Rocket } from 'lucide-react';
 import HeaderAuth from '@/components/header/header-auth';
+import AboutButton from '@/components/common/about-button';
 
 export default function Header() {
     return (
@@ -11,6 +12,7 @@ export default function Header() {
                     <div className="sm:text-lg font-bold hover:animate-pulse ">Mars Rover Photos</div>
                 </Link>
                 <div className="ml-auto flex flex-row space-x-2">
+                    <AboutButton />
                     <HeaderAuth />
                 </div>
             </div>
