@@ -27,17 +27,13 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
     const perseveranceData = fetchManifestDates('perseverance');
     const curiosityData = fetchManifestDates('curiosity');
-    const opportunityData = fetchManifestDates('opportunity');
-    const spiritData = fetchManifestDates('spirit');
 
-    const [perseverance, curiosity, opportunity, spirit] = await Promise.all([
+    const [perseverance, curiosity] = await Promise.all([
         perseveranceData,
         curiosityData,
-        opportunityData,
-        spiritData,
     ]);
 
-    const manifestDates = { perseverance, curiosity, opportunity, spirit } as ManifestDatesCollection;
+    const manifestDates = { perseverance, curiosity } as ManifestDatesCollection;
 
     return (
         <div>

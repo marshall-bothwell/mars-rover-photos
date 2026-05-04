@@ -1,29 +1,38 @@
 export type RoverPhoto = {
-        id: number,
-        sol: number,
-        camera: {
-            id: number,
-            name: string,
-            rover_id: number,
-            full_name: string
-        },
-        img_src: string,
-        earth_date: string,
-        rover: {
-            id: number,
-            name: string,
-            landing_date: string,
-            launch_date: string,
-            status: string,
-            max_sol: number,
-            max_date: string,
-            total_photos: number,
-            cameras: {
-                name: string,
-                full_name: string
-            }[]
-        }
+    id: number;
+    imageid: string;
+    sol: number;
+    date_taken_utc: string;
+    date_taken_mars: string;
+    date_received: string | null;
+    image_files: {
+        full_res: string;
+        large: string;
+        small: string;
     };
+    title: string | null;
+    caption: string | null;
+    credit: string | null;
+    site: number | null;
+    drive: number | null;
+    attitude: string | null;
+    camera: {
+        id: number;
+        name: string;
+        full_name: string;
+        rover_id: number;
+    };
+    camera_filter_name: string | null;
+    camera_position: string | null;
+    camera_vector: string | null;
+    rover: {
+        id: number;
+        name: string;
+        landing_date: string | null;
+        launch_date: string | null;
+        status: string;
+    };
+};
 
 export type RoverApiResponse = { photos: RoverPhoto[] };
 

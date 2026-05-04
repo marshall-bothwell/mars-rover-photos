@@ -41,9 +41,9 @@ export default function RoverPhotoList({ roverPhotos }: RoverPhotoListProps) {
                     key={photo.id}
                     roverName={photo.rover.name}
                     cameraFullName={photo.camera.full_name}
-                    earthDate={photo.earth_date}
+                    earthDate={photo.date_taken_utc}
                     sol={photo.sol}
-                    imageSource={photo.img_src}
+                    imageSource={photo.image_files.full_res}
                     saveable={!!session?.user}
                 />
             );
