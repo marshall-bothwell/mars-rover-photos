@@ -19,7 +19,7 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
     const {
         data: { user },
     } = await supabase.auth.getUser();
-    const { data } = await supabase
+    const { data, error } = await supabase
         .from('saved_photos')
         .select(`
             id,
@@ -37,7 +37,8 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
             )
         `)
         .eq('user_id', userslug);
-
+    console.log('saved_photos data:', JSON.stringify(data, null, 2))
+    console.log('error:', error)
     const deletable = user?.id === userslug;
 
     // Fix this cast later - there is a way to generate types directly
