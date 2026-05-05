@@ -16,13 +16,13 @@ export async function deleteRoverPhoto(formState: DeleteRoverPhotoFormState, for
     const { data: { user } } = await supabase.auth.getUser();
 
     const userId = user?.id;
-    const imageSource = formData.get('imageSource');
+    const dbId = formData.get('dbId');
 
     const { data, error } = await supabase
         .from('saved_photos')
         .delete()
         .eq('user_id', userId)
-        .eq('image_source', imageSource)
+        .eq('rover_photo_id', dbId)
         .select()
 
     if (error) {

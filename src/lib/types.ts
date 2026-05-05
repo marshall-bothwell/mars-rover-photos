@@ -57,15 +57,16 @@ export type ManifestApiResponse = {
 }
 
 export type SavedPhoto = {
-    id: string;
-    created_at: string;
-    user_id: string;
-    rover_name: string;
-    camera_full_name: string;
-    earth_date: string;
-    sol: string;
-    image_source: string;
-}
+    id: number;
+    rover_photos: {
+        id: number;
+        sol: number;
+        date_taken_utc: string;
+        img_src_full_res: string;
+        cameras: { full_name: string };
+        rovers: { name: string };
+    };
+};
 
 export type ManifestDates = {
     landingDate: Date;

@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import * as actions from '@/actions';
 
 interface RoverPhotoCardProps {
+    dbId: number;
     roverName: string;
     cameraFullName: string;
     earthDate: string;
@@ -21,6 +22,7 @@ interface RoverPhotoCardProps {
 }
 
 export default function RoverPhotoCard({
+    dbId,
     roverName,
     cameraFullName,
     earthDate,
@@ -63,11 +65,7 @@ export default function RoverPhotoCard({
             <FormButton className="ml-auto" variant="ghost" action={saveAction}>
                 Save Photo
             </FormButton>
-            <input type="hidden" value={roverName} name="roverName" />
-            <input type="hidden" value={cameraFullName} name="cameraFullName" />
-            <input type="hidden" value={earthDate} name="earthDate" />
-            <input type="hidden" value={sol} name="sol" />
-            <input type="hidden" value={imageSource} name="imageSource" />
+            <input type="hidden" value={dbId} name="dbId" />
         </form>
     );
 
@@ -76,7 +74,7 @@ export default function RoverPhotoCard({
             <FormButton variant="ghost" action={deleteAction}>
                 Delete Photo
             </FormButton>
-            <input type="hidden" value={imageSource} name="imageSource" />
+            <input type="hidden" value={dbId} name="dbId" />
         </form>
     );
 

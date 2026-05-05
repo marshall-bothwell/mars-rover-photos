@@ -15,25 +15,17 @@ export async function saveRoverPhoto(formState: SaveRoverPhotoFormState, formDat
     const { data: { user } } = await supabase.auth.getUser();
     const userId = user?.id;
 
-    const roverName = formData.get('roverName');
-    const cameraFullName = formData.get('cameraFullName');
-    const earthDate = formData.get('earthDate');
-    const sol = formData.get('sol');
-    const imageSource = formData.get('imageSource');
+    const dbId = formData.get('dbId')
 
     const { error } = await supabase
         .from('saved_photos')
         .insert({
             user_id: userId,
-            rover_name: roverName,
-            camera_full_name: cameraFullName,
-            earth_date: earthDate,
-            sol: sol,
-            image_source: imageSource
+            rover_photo_id: dbId,
         })
 
     if (error) {
-        if (error.message === 'duplicate key value violates unique constraint "unique_image_user"') {
+        if (error.message === 'duplicate key value violates unique constraint "saved_photos_user_photo_unique"') {
             return { errors: { message: "You have already saved this photo."}, success: true }
         }
         return { errors: { message: error.message } }

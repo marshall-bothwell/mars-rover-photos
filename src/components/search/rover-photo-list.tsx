@@ -39,6 +39,7 @@ export default function RoverPhotoList({ roverPhotos }: RoverPhotoListProps) {
             return (
                 <RoverPhotoCard
                     key={photo.id}
+                    dbId={photo.id}
                     roverName={photo.rover.name}
                     cameraFullName={photo.camera.full_name}
                     earthDate={photo.date_taken_utc}

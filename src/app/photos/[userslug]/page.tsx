@@ -19,21 +19,42 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
     const {
         data: { user },
     } = await supabase.auth.getUser();
-    const { data } = await supabase.from('saved_photos').select().eq('user_id', userslug);
+    const { data } = await supabase
+        .from('saved_photos')
+        .select(`
+            id,
+            rover_photos (
+                id,
+                sol,
+                date_taken_utc,
+                img_src_full_res,
+                cameras (
+                    full_name
+                ),
+                rovers (
+                    name
+                )
+            )
+        `)
+        .eq('user_id', userslug);
 
     const deletable = user?.id === userslug;
 
-    const savedPhotos = data as SavedPhoto[];
+    // Fix this cast later - there is a way to generate types directly
+    // from the schema for supabase client
+    const savedPhotos = data as unknown as SavedPhoto[];
 
     const renderedSavedPhotos = savedPhotos?.map((photo) => {
+        const rp = photo.rover_photos;
         return (
             <RoverPhotoCard
                 key={photo.id}
-                roverName={photo.rover_name}
-                cameraFullName={photo.camera_full_name}
-                earthDate={photo.earth_date}
-                sol={parseInt(photo.sol)}
-                imageSource={photo.image_source}
+                dbId={rp.id}
+                roverName={rp.rovers.name}
+                cameraFullName={rp.cameras.full_name}
+                earthDate={rp.date_taken_utc}
+                sol={rp.sol}
+                imageSource={rp.img_src_full_res}
                 deletable={deletable}
             />
         );
