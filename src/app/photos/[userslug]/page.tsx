@@ -5,16 +5,16 @@ import CopyUrlButton from '@/components/common/copy-url-button';
 import { SavedPhoto } from '@/lib/types';
 
 interface SavedPhotosPageProps {
-    params: {
+    params: Promise<{
         userslug: string;
-    };
+    }>;
 }
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) {
-    const { userslug } = params;
+    const { userslug } = await params;
     const supabase = await createSupabaseServerClient();
     const {
         data: { user },
@@ -37,8 +37,7 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
             )
         `)
         .eq('user_id', userslug);
-    console.log('saved_photos data:', JSON.stringify(data, null, 2))
-    console.log('error:', error)
+
     const deletable = user?.id === userslug;
 
     // Fix this cast later - there is a way to generate types directly
