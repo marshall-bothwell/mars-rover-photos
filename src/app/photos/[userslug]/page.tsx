@@ -64,7 +64,7 @@ export default async function SavedPhotosPage({ params }: SavedPhotosPageProps) 
         <div>
             {deletable ? (
                 <div className="text-center mt-4 space-y-4 flex flex-col items-center">
-                    <h1 className="text-5xl font-bold px-8 bg-gradient-to-r from-teal-200 via-cyan-400 to-cyan-200 inline-block text-transparent bg-clip-text">
+                    <h1 className="text-7xl font-bold my-4 px-8 inline-block text-accent">
                         Saved Photos
                     </h1>
                     <CopyUrlButton />
