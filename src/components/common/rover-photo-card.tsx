@@ -81,7 +81,7 @@ export default function RoverPhotoCard({
     return (
         <Dialog>
             <div className="row-auto col-span-1 m-4 shadow">
-                <Card className="bg-transparent border-none">
+                <Card>
                     <CardHeader>
                         <CardTitle>{roverName}</CardTitle>
                         <CardDescription>

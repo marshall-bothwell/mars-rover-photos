@@ -2,117 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- Slate Theme ---
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
-}
-*/
-
-/* --- Zinc Theme --- */
 @layer base {
     :root {
-        --background: 0 0% 100%;
-        --foreground: 240 10% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 240 10% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 240 10% 3.9%;
-        --primary: 240 5.9% 10%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 240 4.8% 95.9%;
-        --secondary-foreground: 240 5.9% 10%;
-        --muted: 240 4.8% 95.9%;
-        --muted-foreground: 240 3.8% 46.1%;
-        --accent: 240 4.8% 95.9%;
-        --accent-foreground: 240 5.9% 10%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 240 5.9% 90%;
-        --input: 240 5.9% 90%;
-        --ring: 240 5.9% 10%;
+        --background: 36 47% 93%;            /* #f5efe4  parchment */
+        --foreground: 24 33% 12%;            /* #2a1f15  warm ink */
+
+        --card: 39 56% 96%;                  /* #fbf7ee  raised parchment */
+        --card-foreground: 24 33% 12%;       /* #2a1f15 */
+
+        --popover: 0 0% 100%;                /* #ffffff  pure white */
+        --popover-foreground: 24 33% 12%;    /* #2a1f15 */
+
+        --primary: 24 33% 12%;               /* #2a1f15  ink button */
+        --primary-foreground: 39 56% 96%;    /* #fbf7ee */
+
+        --secondary: 39 56% 96%;             /* #fbf7ee  surface */
+        --secondary-foreground: 24 33% 12%;  /* #2a1f15 */
+
+        --muted: 36 30% 88%;                 /* #e8dfcc  muted band */
+        --muted-foreground: 25 19% 35%;      /* #6b5a48  dim text */
+
+        --accent: 16 71% 41%;                /* #b34a1e  rust accent */
+        --accent-foreground: 39 56% 96%;     /* #fbf7ee */
+
+        --destructive: 4 74% 45%;            /* #c9311e */
+        --destructive-foreground: 39 56% 96%;/* #fbf7ee */
+
+        --border: 33 25% 84%;                /* ~#dcd2bf — ink @ 10% over parchment */
+        --input: 33 25% 84%;
+        --ring: 16 71% 41%;                  /* #b34a1e  rust focus ring */
+
+        --accent-hover: 18 65% 48%;           /* #c95a2b  rust hover */
+        --chip-bg: 16 71% 41% / 0.08;
+        --chip-border: 16 71% 41% / 0.28;
+        --chip-fg: 14 76% 31%;                /* #8a3614 */
+
         --radius: 0.5rem;
     }
 
     .dark {
-        --background: 240 10% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 240 10% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 240 10% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 240 5.9% 10%;
-        --secondary: 240 3.7% 15.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 240 3.7% 15.9%;
-        --muted-foreground: 240 5% 64.9%;
-        --accent: 240 3.7% 15.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 240 3.7% 15.9%;
-        --input: 240 3.7% 15.9%;
-        --ring: 240 4.9% 83.9%;
+        --background: 33 24% 6%;             /* #14110d  warm near-black */
+        --foreground: 40 67% 86%;            /* #f4e4c1  soft cream */
+
+        --card: 30 18% 9%;                   /* #1c1814  surface */
+        --card-foreground: 40 67% 86%;       /* #f4e4c1 */
+
+        --popover: 30 22% 12%;               /* #262019  raised */
+        --popover-foreground: 40 67% 86%;    /* #f4e4c1 */
+
+        --primary: 40 67% 86%;               /* #f4e4c1  cream button */
+        --primary-foreground: 33 24% 6%;     /* #14110d */
+
+        --secondary: 30 22% 12%;             /* #262019  raised surface */
+        --secondary-foreground: 40 67% 86%;  /* #f4e4c1 */
+
+        --muted: 30 18% 9%;                  /* #1c1814 */
+        --muted-foreground: 32 19% 58%;      /* #a89880  dim text */
+
+        --accent: 21 80% 57%;                /* #e87a3d  ember orange */
+        --accent-foreground: 21 71% 6%;      /* #1a0d05  deep ink on accent */
+
+        --destructive: 0 62% 50%;            /* #cf3030 */
+        --destructive-foreground: 40 67% 86%;/* #f4e4c1 */
+
+        --border: 33 18% 13%;                /* ~#231f1a — foreground @ 10% over background */
+        --border-hialpha: 33 18% 13% / .9;
+        --input: 33 18% 13%;
+        --ring: 21 80% 57%;                  /* #e87a3d  ember focus ring */
+
+        --accent-hover: 22 87% 65%;           /* #f49256  ember hover */
+        --chip-bg: 21 80% 57% / 0.14;
+        --chip-border: 21 80% 57% / 0.35;
+        --chip-fg: 24 87% 70%;                /* #f4a672 */
     }
 }
 

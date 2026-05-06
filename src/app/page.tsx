@@ -21,7 +21,7 @@ export default async function Home() {
 
     return (
         <div className="flex flex-col items-center text-center">
-            <div className="text-7xl font-bold my-4 px-8 bg-gradient-to-r from-teal-200 via-cyan-400 to-cyan-200 inline-block text-transparent bg-clip-text">
+            <div className="text-7xl font-bold my-4 px-8 inline-block text-accent">
                 Mars Rover Photos
             </div>
             <SearchForm manifestDates={manifestDates} />

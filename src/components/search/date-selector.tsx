@@ -64,7 +64,7 @@ export default function DateSelector({ selectedRover, manifestDates: collection 
             <input name="date" value={formattedDate} type="hidden" />
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant={'outline'}>
+                    <Button variant={'active_rover'}>
                         <CalendarIcon />
                         {format(date, 'PPP')}
                     </Button>
@@ -90,7 +90,7 @@ export default function DateSelector({ selectedRover, manifestDates: collection 
                     </div>
                 </PopoverContent>
             </Popover>
-            <Button variant="outline" asChild>
+            <Button asChild>
                 <Link href={`/search?rover=${selectedRover}&date=${formattedDate}&camera=all`}>
                     Search
                 </Link>

@@ -12,7 +12,7 @@ export default function RoverSelector({ selectedRover, handleRoverChange }: Rove
             {(['perseverance', 'curiosity'] as Rover[]).map((rover) => (
                 <Button
                     key={rover}
-                    variant={selectedRover === rover ? 'secondary' : 'outline'}
+                    variant={selectedRover === rover ? 'active_rover' : 'inactive_rover'}
                     onClick={() => handleRoverChange(rover)}
                     className="capitalize"
                 >
