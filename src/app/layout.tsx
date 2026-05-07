@@ -18,7 +18,7 @@ export const metadata: Metadata = {
         template: '%s | Mars Rover Photos',
     },
     description: "Search and explore real photos from NASA's Mars rovers - Curiosity, Perseverance, and Ingenuity. " + 
-                 "Browse by sol, camera, or mission to see the Mars up close.",
+                 "Browse by sol, camera, or mission to see Mars up close.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
