@@ -12,8 +12,13 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'Mars Rover Photos',
-    description: 'A web application for searching and saving Mars rover photos.',
+    metadataBase: new URL('https://marsroverphotos.app'),
+    title: {
+        default: 'Mars Rover Photos',
+        template: '%s | Mars Rover Photos',
+    },
+    description: "Search and explore real photos from NASA's Mars rovers - Curiosity, Perseverance, and Ingenuity. " + 
+                 "Browse by sol, camera, or mission to see the Mars up close.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -26,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <NuqsAdapter>
                     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
                         <Header />
-                        <NextTopLoader showSpinner={false} />
+                        <NextTopLoader showSpinner={false} color="#e87a3d"/>
                         <div className="select-none">{children}</div>
                         <Analytics />
                         <Toaster />

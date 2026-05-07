@@ -2,11 +2,19 @@ import SearchForm from '@/components/search/search-form';
 import { fetchManifestDates } from '@/lib/utils/fetch-manifest-dates';
 import { ManifestDatesCollection } from '@/lib/types';
 import { AiFillGithub, AiFillLinkedin } from 'react-icons/ai';
+import { buildMetadata } from '@/lib/build-metadata';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
 export const maxDuration = 30;
+
+export const metadata = buildMetadata({
+    title: "Mars Rover Photos",
+    description: "Search and explore real photos from NASA's Mars rovers - Curiosity, Perseverance, and Ingenuity. " + 
+                 "Browse by sol, camera, or mission to see the Mars up close.",
+    path: "/"
+})
 
 export default async function Home() {
     const perseveranceData = fetchManifestDates('perseverance');
