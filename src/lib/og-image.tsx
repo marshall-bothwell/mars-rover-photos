@@ -18,7 +18,7 @@ export function renderOGImage({
   eyebrow = 'Mars Rover Imaging',
   titleTop = 'Mars Rover',
   titleBottom = 'Photos',
-  subtitle = "Browse every photo from NASA's Mars Rovers...",
+  subtitle = "Browse every photo from NASA's Mars Rovers.",
   lat = '18.4°N',
   lon = '77.4°E',
   sol = '1087',
